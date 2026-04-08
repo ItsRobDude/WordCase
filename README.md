@@ -49,7 +49,7 @@ WordCase should prefer **clarity, fairness, and maintainability** over novelty f
 
 WordCase is a **daily mystery word game** framed as a stream of case files and radio-like transmissions.
 
-Each day, the player receives a new case prompt. They make guesses, interpret feedback, reveal evidence, and solve a target word or short phrase. A successful daily solve contributes evidence to a larger weekly caseboard. Over time, the player builds streaks, fills an archive, unlocks themed case content, and compares spoiler-safe results with friends.
+Each day, the player receives a new case prompt. They make guesses, interpret feedback, reveal evidence, and solve a target word. A successful daily solve contributes evidence to a larger weekly caseboard. Over time, the player builds streaks, fills an archive, unlocks themed case content, and compares spoiler-safe results with friends.
 
 WordCase should feel like:
 - a daily ritual
@@ -203,9 +203,7 @@ WordCase should be built around a small set of tightly related game layers.
 ### 1. Daily Case
 This is the primary mode and the center of the product.
 
-Each day, the player receives a fresh case built around a target answer:
-- usually a single word
-- sometimes a short phrase when the mode supports it
+Each day, the player receives a fresh case built around a single 5-letter target answer in v1.
 
 The daily case should provide:
 - a case title
@@ -284,16 +282,18 @@ The loop should stay simple on the surface, even if the content system becomes m
 
 ## Daily Puzzle Structure
 
-The exact final implementation may evolve, but the intended product direction is:
+The exact final implementation may evolve, but the intended v1 product direction is:
 
-- each daily case has a single target answer
-- the answer is a valid word or supported short phrase depending on the case type
+- each daily case has a single 5-letter target answer
+- the answer is a valid word under the current dictionary rules
 - the player has a bounded number of attempts
 - each attempt produces clear feedback
 - optional assists may exist, but they must not lie or create confusion
 - the puzzle should feel deducible, not random
 - success should feel earned
 - failure should still feel understandable rather than insulting
+
+Phrase-based case formats may exist later, but they are not part of the v1 daily puzzle definition unless the docs are intentionally updated.
 
 WordCase should avoid puzzles that can only be solved by trivia knowledge, genre-specific jargon, or dictionary abuse.
 
