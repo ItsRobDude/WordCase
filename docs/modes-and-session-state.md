@@ -345,7 +345,24 @@ Behavior:
 - the board should not preempt: unfinished starter case, unacknowledged result, Protected Carryover Daily, or current-day unresolved Daily Case
 - the resolution should feel like a payoff, not mandatory paperwork
 
-### 9.5 Weekly Board Resolved
+### 9.5 Weekly Resolution Run In Progress
+The player has started a specific Weekly Resolution run and has remaining attempts in that run.
+
+Behavior:
+- resume should return the player to this in-progress run until it ends or they intentionally leave
+- run-local state is isolated to the current run (attempts used and hint-used state)
+- prior failed runs are historical records and are not resumed
+
+### 9.6 Weekly Resolution Run Failed (Retry Eligible)
+The player's current Weekly Resolution run ended in fail and the week is still active.
+
+Behavior:
+- the board remains unlocked but unresolved
+- the fail should be recorded as a failed weekly run for history/analytics
+- selecting retry must start a new run with full attempts and fresh per-run hint allowance
+- retry count is unlimited during the active week
+
+### 9.7 Weekly Board Resolved
 The player has completed the weekly closure.
 
 Behavior:
@@ -353,11 +370,12 @@ Behavior:
 - the player should retain a historical record of that week if history surfaces exist
 - the app should not repeatedly nag the player to revisit a fully resolved weekly board
 
-### 9.6 Weekly Cycle Expired
+### 9.8 Weekly Cycle Expired
 When a new weekly cycle begins:
 - the old weekly board becomes historical
 - the new one becomes the current active weekly board
 - past results should remain readable if history supports it
+- unresolved failed-run history for the expired week remains tied to that closed week and does not carry into the new week
 
 ---
 
