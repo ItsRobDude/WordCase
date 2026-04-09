@@ -585,7 +585,24 @@ When the weekly case is complete:
 - show weekly closure card
 - preserve access in archive or history later
 
-### 11.6 Exit behavior
+### 11.6 Weekly resolution retry contract
+If a Weekly Resolution run fails during the active week:
+
+- show a clear failed-run state on the Weekly Caseboard screen
+- primary action: **Retry Weekly Resolution**
+- failed run remains recorded as failed for history/analytics and is not resumed
+- retry instantiates a new run with full attempts and a fresh per-run hint allowance
+- retries are unlimited until weekly rollover
+- copy should state that daily evidence remains intact
+
+### 11.7 Weekly resolution run HUD expectations
+While a Weekly Resolution run is active, the run HUD should mirror Daily Case clarity:
+
+- show attempts remaining for the current run only
+- show hint availability for the current run only
+- do not display prior failed-run attempts as carryover debt
+
+### 11.8 Exit behavior
 Exiting the Weekly Caseboard returns to Home.
 
 ---

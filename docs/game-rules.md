@@ -475,15 +475,38 @@ Therefore:
 
 ### Weekly Resolution retry rule
 If the player does not solve the Weekly Resolution on a given attempt:
+- each retry instantiates a **new Weekly Resolution run** rather than continuing the failed run
+- the failed run remains recorded as failed and cannot be resumed
 - they may retry it again during the same weekly window
 - prior daily evidence remains intact
 - the week's board remains unlocked but unresolved until the Weekly Resolution is solved or the week rolls over
 
+### Weekly Resolution run reset rule
+At the start of each new Weekly Resolution run:
+- attempt counter resets to the full run allowance (currently six valid attempts)
+- hint allowance resets to the per-run default (currently one hint)
+- prior failed-run attempts and hint usage do not carry into the new run
+
 ### Weekly Resolution hint default
 Unless a later mode-specific document intentionally changes this:
 - the Weekly Resolution follows the same honest one-hint default as the Standard Daily Case
+- that one-hint allowance is scoped per Weekly Resolution run, not pooled across the whole week
 - hint use does not remove previously earned evidence
 - hint use does not affect daily streak truth
+
+### Weekly Resolution failed-run history and analytics rule
+If a Weekly Resolution run fails before rollover:
+- the failed run should be preserved in weekly history as a failed run record for that week
+- analytics should record the failed run outcome and run-level context (for example attempts used and hint-used state)
+- failed runs must not rewrite daily outcomes or reduce already earned evidence
+- the week remains unresolved until a later run is solved or the weekly cycle ends
+
+### Weekly Resolution retry limit rule
+For v1, Weekly Resolution retries are unlimited during the active weekly window.
+
+Retries end only when:
+- the player solves a run
+- or the weekly cycle rolls over
 
 ### Meaning of stronger weekly participation
 Solving more Daily Cases in a week should provide:
