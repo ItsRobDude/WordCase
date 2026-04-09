@@ -45,6 +45,13 @@ A published Daily Case package must include these required fields:
 - `isCanonical`
 - `status`
 
+v1 hint precedence and publish validation:
+- `hintData` is required for schema compatibility, but v1 hint behavior is hard-fixed by game rules
+- publish-time validation must reject any daily package where `hintData` is not exactly:
+  - `kind` = `single_letter_reveal`
+  - `maxHints` = `1`
+  - `unlockAfterValidGuesses` = `1`
+
 ### 2.2 Published Weekly Resolution package schema
 A published Weekly Resolution package must include these required fields:
 - `id`
@@ -63,6 +70,13 @@ A published Weekly Resolution package must include these required fields:
 - `difficulty` `{ tier, flags }`
 - `isCanonical`
 - `status`
+
+v1 hint precedence and publish validation:
+- v1 Weekly Resolution follows the same fixed one-hint policy as Standard Daily Case
+- publish-time validation must reject any weekly package where `hintData` values differ from the v1 fixed policy:
+  - `kind` = `single_letter_reveal`
+  - `maxHints` = `1`
+  - `unlockAfterValidGuesses` = `1`
 
 ### 2.3 Weekly Resolution v1 engine rule
 For v1, Weekly Resolution uses the same core 5-letter guess/feedback engine as Daily Case.
