@@ -402,6 +402,11 @@ Offline canonical completion is allowed only if the required Daily Case package 
 
 The app must not invent or guess a new live daily while fully offline when required content is missing.
 
+### Offline canonical completion rule
+Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
+
+The app must not invent or guess a new live daily while fully offline when required content is missing.
+
 ---
 
 ## 9. Weekly Caseboard Rules
