@@ -52,7 +52,13 @@ The following terms should be used consistently across WordCase.
 The main puzzle for the day.
 
 ### Active Daily Case
-The one Daily Case that currently counts for streaks, weekly evidence, and canonical daily completion.
+The one Daily Case currently eligible for canonical daily completion.
+
+By default this is the newly published daily.
+If a Protected Carryover Daily exists, that carryover daily remains the Active Daily Case until it is resolved or explicitly abandoned.
+
+### Protected Carryover Daily
+A previously published Daily Case that remains canonically playable for a player after rollover because they submitted at least one valid guess before rollover and have not yet solved, failed, abandoned, or aged out that case under rollover rules.
 
 ### Case Frame
 The visible mystery wrapper around a case, such as the case title, transmission text, and other non-spoiler context presented before or during play.
@@ -118,9 +124,27 @@ A Standard Daily Case should have:
 - one target answer
 - one case title
 - one visible Case Frame
+- one visible Clue
 - one visible answer length
 - a bounded number of attempts
 - deterministic feedback after each valid guess
+
+### Title, Case Frame, and Clue roles
+For the Standard Daily Case:
+- the **Case Title** exists for case identity and flavor and is not required to solve the puzzle
+- the **Case Frame** exists for atmosphere and semantic orientation and must not contradict puzzle truth
+- the **Clue** is the primary pre-guess semantic nudge
+
+### Clue strength and fairness
+The Clue may materially narrow the likely answer family.
+
+However, the case must still be solved primarily through deterministic guess feedback rather than clue cleverness.
+
+Clues must not rely on:
+- obscure trivia
+- alternate spellings
+- rare definitions
+- niche domain knowledge
 
 ### Current standard answer format
 For the Standard Daily Case:
@@ -269,6 +293,18 @@ The Standard Daily Case hint should:
 - never provide false or ambiguous information
 - never submit a guess automatically on the player's behalf
 
+### Hint selection algorithm
+Hint selection must be deterministic.
+
+For the Standard Daily Case:
+- scan answer positions from left to right
+- find the first position that is both correct for the answer and not yet revealed as fixed
+- reveal that position and letter
+
+Once a hint-revealed position is fixed, it remains visibly fixed for the rest of the case.
+
+Hint selection must not depend on randomness, device state, or presentation-layer behavior.
+
 ### Hint interaction rules
 After a hint is used:
 - previously submitted guesses and their feedback remain unchanged
@@ -304,7 +340,7 @@ However:
 ## 8. Daily Window and Rollover Rules
 
 ### One active daily at a time
-WordCase should have one Active Daily Case at a time.
+WordCase should have at most one Active Daily Case at a time for canonical completion.
 
 ### Daily boundary authority rule
 WordCase must behave as though there is one stable authoritative daily boundary for canonical daily results.
@@ -317,29 +353,42 @@ However:
 - timezone ambiguity must not allow the same player to earn two canonical results for one published daily
 
 ### Daily window rule
-The Active Daily Case is only eligible for canonical daily completion during its active daily window, subject to the active-session grace rule below.
+The newly published Daily Case is canonically eligible during its daily window unless a Protected Carryover Daily is still unresolved.
 
-### Active-session rollover grace rule
-If the player entered the Active Daily Case before rollover and remains in the same uninterrupted solving session:
-- they may finish that case for a canonical result
-- the case remains eligible until the player reaches its result screen or leaves that active solve session
+### Protected carryover creation rule
+If a player has submitted at least one valid guess in the currently active daily before rollover, that daily becomes a **Protected Carryover Daily** for that player.
 
-This grace exists to protect fairness for players who are already actively solving at the boundary.
+Opening a daily without submitting at least one valid guess does not create Protected Carryover status.
+
+### Protected carryover continuity rule
+A Protected Carryover Daily remains canonically solvable after rollover until one of the following occurs:
+- the player solves it
+- the player fails it
+- the player explicitly abandons it and marks it missed
+- another daily rollover occurs while it is still unresolved
+
+Only one Protected Carryover Daily may exist per player at a time.
+
+While it exists:
+- it remains the default resume target
+- the newly published daily may be visible
+- the newly published daily does not become that player's next canonical daily until the carryover daily is resolved or explicitly abandoned
 
 ### Rollover rule
 When a new Daily Case becomes active:
-- the previous Active Daily Case stops counting as the current daily
-- the previous case no longer grants daily streak credit if solved later in a non-canonical context
-- an unfinished prior case becomes Missed unless it already had a canonical solve or fail result or is still protected by the active-session grace rule
+- the previous daily is no longer the newly published daily
+- canonical daily focus moves to the player's Protected Carryover Daily if one exists; otherwise it moves to the newly published daily
+- a previously unresolved Protected Carryover Daily becomes Missed if another rollover occurs before it is resolved or explicitly abandoned
 
 ### Resume-before-rollover rule
 During the active daily window, the player should be able to leave and return without losing progress.
 
 ### Missed case rule
-If the player started a Daily Case but did not reach a canonical solve or fail before the daily window and any active-session grace ended:
+If the player started a Daily Case but did not reach a canonical solve or fail before canonical eligibility ended:
 - that case is recorded as Missed for canonical daily purposes
 - it may later appear in Archive or Practice under separate rules
 - its Missed status should remain historically accurate
+If the player had submitted at least one valid guess before rollover, the case should first follow Protected Carryover rules before becoming Missed.
 
 ---
 
@@ -372,6 +421,20 @@ The player should be able to tell:
 The Weekly Resolution is a bonus payoff case for the current week.
 It exists to reward steady participation and provide closure.
 It does not replace the seven Daily Cases and does not rewrite their recorded outcomes.
+
+### Weekly Resolution format in v1
+For v1, the Weekly Resolution uses the same core puzzle format as the Standard Daily Case.
+
+That means:
+- one single-word answer
+- five letters
+- six valid attempts
+- the same validation rules
+- the same deterministic feedback rules
+- the same duplicate-letter rules
+- the same one-hint rule
+
+In v1, Weekly Resolution differs in presentation and payoff, not deduction grammar.
 
 ### Weekly Resolution unlock rule
 The Weekly Resolution becomes available when the player has earned at least **four** evidence fragments during that weekly cycle.
@@ -499,7 +562,7 @@ Guest play should be allowed by default unless product docs intentionally change
 ## 12. Streak and Progress Rules
 
 ### Daily solve streak rule
-A Daily Solve Streak increases when the player solves the Active Daily Case during its active daily window or valid active-session rollover grace.
+A Daily Solve Streak increases when the player solves the Active Daily Case canonically, including while that case is in a valid Protected Carryover state.
 
 ### Assisted solve streak rule
 Both Solved Unassisted and Solved Assisted results increase the Daily Solve Streak when earned canonically.
