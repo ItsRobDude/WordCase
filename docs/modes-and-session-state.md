@@ -146,16 +146,17 @@ When the app needs to decide what to foreground, WordCase should use a consisten
 
 Default priority:
 1. unfinished first-launch starter case
-2. active in-progress Daily Case
-3. Daily Case result screen not yet acknowledged
-4. Weekly Caseboard resolution that is ready and unviewed
-5. home with today’s Daily Case featured
-6. in-progress archive/practice case if resumed intentionally
-7. ordinary home fallback
+2. Daily Case result screen not yet acknowledged
+3. current-day in-progress Daily Case
+4. ready and unviewed Weekly Resolution
+5. Home
+6. in-progress archive/practice case only when resumed intentionally from inside archive/practice
 
 Important rule:
 - archive/practice should not automatically steal priority from an in-progress Daily Case
 - optional side content should never bury the core daily ritual
+- Weekly Resolution must not auto-open on app launch
+- Home is the default calm routing surface once nothing higher-priority needs preservation
 
 ---
 
@@ -337,8 +338,10 @@ Behavior:
 The player has reached the threshold required for the weekly closure moment.
 
 Behavior:
-- home may elevate this as a secondary or primary action after the daily is done
+- home may elevate this as a secondary action while a canonical daily is unresolved
+- home may elevate this as the preferred next action only after the canonical daily is concluded and its result is acknowledged
 - the board should not force itself in front of an unfinished live daily
+- the board should not preempt: unfinished starter case, unacknowledged result, or current-day unresolved Daily Case
 - the resolution should feel like a payoff, not mandatory paperwork
 
 ### 9.5 Weekly Board Resolved
@@ -377,7 +380,8 @@ The player has begun a practice/archive case.
 
 Behavior:
 - it should autosave if the product supports in-progress practice resume
-- it should not override the priority of an active unresolved Daily Case on future app opens unless the player returns intentionally from within archive/practice
+- it should never become the default app-open target ahead of canonical daily flow
+- it may be resumed only when the player returns intentionally from within archive/practice
 
 ### 10.4 Practice Case Solved / Ended
 When a practice case ends:
@@ -446,6 +450,9 @@ Once the player dismisses the result:
 - home should present the next best action
 - the result should remain viewable later if the product supports that history surface
 
+Result acknowledgment is primarily device-local UI state.
+Canonical solve/fail outcome is shared cross-device truth.
+
 ---
 
 ## 13. App Lifecycle States
@@ -496,6 +503,14 @@ Resume behavior is one of the most important trust behaviors in the app.
 ### 14.1 Resume target
 When the player returns, the app should route them to the most relevant unfinished or newly completed state based on session priority.
 
+Priority order for launch and resume:
+1. unfinished starter case
+2. unacknowledged result screen
+3. unresolved current-day Daily Case
+4. ready and unviewed Weekly Resolution
+5. Home
+6. in-progress archive/practice only when resumed intentionally from inside archive/practice
+
 ### 14.2 Resume from active daily
 If a Daily Case is in progress:
 - reopening the app should return to that Daily Case directly where practical
@@ -517,6 +532,12 @@ If an archive/practice case is in progress but a live Daily Case is also unresol
 
 This protects the main ritual.
 
+### 14.6 Weekly Resolution resume precedence
+If Weekly Resolution is ready while a canonical daily is unresolved:
+- the unresolved daily remains the default resume target
+- Weekly Resolution may be shown on Home secondarily
+- Weekly Resolution must not auto-open on launch or resume
+
 ---
 
 ## 15. Daily Rollover Rules
@@ -526,20 +547,36 @@ Daily rollover must protect trust.
 ### 15.1 Active daily identity
 Each daily case should be identified by a stable daily case ID.
 
+Canonical daily identity and canonical result eligibility are determined by server-published puzzle IDs and server-defined UTC validity windows.
+
+Local device day is not authoritative.
+Account timezone is not authoritative.
+Local timezone may be used for display only.
+
+Wrong or manually changed device clock must never:
+- unlock extra canonical dailies
+- restore missed cases
+- grant extra streak credit
+
 ### 15.2 New-day availability
 When a new calendar day becomes active for content selection:
 - a new Daily Case becomes available as the current day’s case
 - the old daily becomes part of history/archive status according to product rules
 
-### 15.3 In-progress rollover protection
-If a player has an in-progress daily from the prior day:
-- that in-progress case must remain resumable
-- the app must not silently replace it mid-session with the new daily
-- the player should finish or otherwise conclusively exit the prior active session before the new daily takes over as the default resume target
+### 15.3 Active-session rollover grace
+If rollover occurs while the player is still actively solving the prior daily in one uninterrupted session:
+- that in-progress session may finish canonically
+- the app must not silently replace that active view mid-session
+
+This is the only canonical rollover exception.
+
+If the player leaves that active prior-day session and later returns after rollover:
+- the prior daily is no longer canonically resumable
+- the currently published daily becomes the default canonical daily target
 
 ### 15.4 Post-rollover routing
-After the old in-progress daily is concluded:
-- home may then foreground the new current daily
+After rollover, once any active-session grace has ended:
+- Home may foreground the current daily
 - the transition should feel explicit and understandable
 
 ### 15.5 Result preservation across rollover
@@ -562,11 +599,13 @@ If required daily or archive content is not currently available:
 ### 16.2 Offline with cached content
 If the content is already present locally:
 - the player should be able to continue normally where allowed
+- canonical offline completion is allowed only when the required Daily Case package and matching validation snapshot are already cached
 
 ### 16.3 Offline without required content
 If the required content is missing:
 - the player should see a clear unavailable or download-required state
 - the app should not invent fallback case data
+- the app must not invent or guess a new live daily for canonical play
 
 ### 16.4 Save restoration issue
 If restoration partially fails:
@@ -628,6 +667,8 @@ The system should record enough state to answer:
 Important rule:
 - canonical puzzle outcome should not depend on transient UI state alone
 - view-layer state and game-truth state must remain separable
+- streak should be derived from canonical daily results rather than synced as top-level mutable truth
+- weekly evidence should be derived from canonical daily results and weekly resolution state rather than synced as top-level mutable truth
 
 ---
 
