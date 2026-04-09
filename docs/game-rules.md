@@ -54,8 +54,11 @@ The main puzzle for the day.
 ### Active Daily Case
 The one Daily Case currently eligible for canonical daily completion.
 
-By default this is the currently published daily.
-The only rollover exception is the active-session grace rule in Section 8.
+By default this is the newly published daily.
+If a Protected Carryover Daily exists, that carryover daily remains the Active Daily Case until it is resolved or explicitly abandoned.
+
+### Protected Carryover Daily
+A previously published Daily Case that remains canonically playable for a player after rollover because they submitted at least one valid guess before rollover and have not yet solved, failed, abandoned, or aged out that case under rollover rules.
 
 ### Case Frame
 The visible mystery wrapper around a case, such as the case title, transmission text, and other non-spoiler context presented before or during play.
@@ -352,21 +355,32 @@ However:
 - local timezone may be used for display only
 
 ### Daily window rule
-The currently published Daily Case is canonically eligible during its server-defined validity window.
+The newly published Daily Case is canonically eligible during its daily window unless a Protected Carryover Daily is still unresolved.
 
-### Active-session rollover grace rule
-If rollover occurs while the player is still in an uninterrupted active solve session of the prior daily:
-- they may finish that prior daily canonically in that same uninterrupted session
+### Protected carryover creation rule
+If a player has submitted at least one valid guess in the currently active daily before rollover, that daily becomes a **Protected Carryover Daily** for that player.
 
-This is the only canonical rollover exception.
+Opening a daily without submitting at least one valid guess does not create Protected Carryover status.
 
-If the player leaves that active solve session and later returns after rollover, that prior daily is no longer canonically resumable.
+### Protected carryover continuity rule
+A Protected Carryover Daily remains canonically solvable after rollover until one of the following occurs:
+- the player solves it
+- the player fails it
+- the player explicitly abandons it and marks it missed
+- another daily rollover occurs while it is still unresolved
+
+Only one Protected Carryover Daily may exist per player at a time.
+
+While it exists:
+- it remains the default resume target
+- the newly published daily may be visible
+- the newly published daily does not become that player's next canonical daily until the carryover daily is resolved or explicitly abandoned
 
 ### Rollover rule
 When a new Daily Case becomes active:
 - the previous daily is no longer the newly published daily
-- outside the active-session rollover grace rule, the previous daily is no longer canonically resumable
-- the newly published daily becomes the default foregrounded canonical daily
+- canonical daily focus moves to the player's Protected Carryover Daily if one exists; otherwise it moves to the newly published daily
+- a previously unresolved Protected Carryover Daily becomes Missed if another rollover occurs before it is resolved or explicitly abandoned
 
 ### Resume-before-rollover rule
 During the active daily window, the player should be able to leave and return without losing progress.
@@ -376,6 +390,22 @@ If the player started a Daily Case but did not reach a canonical solve or fail b
 - that case is recorded as Missed for canonical daily purposes
 - it may later appear in Archive or Practice under separate rules
 - its Missed status should remain historically accurate
+If the player had submitted at least one valid guess before rollover, the case should first follow Protected Carryover rules before becoming Missed.
+
+### Offline canonical completion rule
+Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
+
+The app must not invent or guess a new live daily while fully offline when required content is missing.
+
+### Offline canonical completion rule
+Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
+
+The app must not invent or guess a new live daily while fully offline when required content is missing.
+
+### Offline canonical completion rule
+Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
+
+The app must not invent or guess a new live daily while fully offline when required content is missing.
 
 ### Offline canonical completion rule
 Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
@@ -557,7 +587,7 @@ Streak and weekly evidence are derived from canonical daily results and weekly r
 They should not be treated as free-floating mutable sync truth separate from canonical case outcomes.
 
 ### Daily solve streak rule
-A Daily Solve Streak increases when the player solves the Active Daily Case canonically, including solves completed under active-session rollover grace.
+A Daily Solve Streak increases when the player solves the Active Daily Case canonically, including while that case is in a valid Protected Carryover state.
 
 ### Assisted solve streak rule
 Both Solved Unassisted and Solved Assisted results increase the Daily Solve Streak when earned canonically.
