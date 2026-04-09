@@ -147,8 +147,8 @@ When the app needs to decide what to foreground, WordCase should use a consisten
 Default priority:
 1. unfinished first-launch starter case
 2. Daily Case result screen not yet acknowledged
-3. current-day in-progress Daily Case
-4. ready and unviewed Weekly Resolution
+3. Protected Carryover Daily
+4. current-day in-progress Daily Case
 5. Home
 6. in-progress archive/practice case only when resumed intentionally from inside archive/practice
 
@@ -257,6 +257,7 @@ Behavior:
 - the daily is now the player’s active case for that day
 - the current session becomes resumable
 - startup/resume should now favor this case until it reaches an end state or the player leaves intentionally
+- opening the case without submitting a valid guess does not create Protected Carryover Daily status at rollover
 
 ### 8.3 Daily Case In Progress
 The player has started interacting meaningfully with today’s case.
@@ -341,7 +342,7 @@ Behavior:
 - home may elevate this as a secondary action while a canonical daily is unresolved
 - home may elevate this as the preferred next action only after the canonical daily is concluded and its result is acknowledged
 - the board should not force itself in front of an unfinished live daily
-- the board should not preempt: unfinished starter case, unacknowledged result, or current-day unresolved Daily Case
+- the board should not preempt: unfinished starter case, unacknowledged result, Protected Carryover Daily, or current-day unresolved Daily Case
 - the resolution should feel like a payoff, not mandatory paperwork
 
 ### 9.5 Weekly Board Resolved
@@ -506,8 +507,8 @@ When the player returns, the app should route them to the most relevant unfinish
 Priority order for launch and resume:
 1. unfinished starter case
 2. unacknowledged result screen
-3. unresolved current-day Daily Case
-4. ready and unviewed Weekly Resolution
+3. unresolved Protected Carryover Daily
+4. unresolved current-day Daily Case
 5. Home
 6. in-progress archive/practice only when resumed intentionally from inside archive/practice
 
@@ -563,23 +564,45 @@ When a new calendar day becomes active for content selection:
 - a new Daily Case becomes available as the current day’s case
 - the old daily becomes part of history/archive status according to product rules
 
-### 15.3 Active-session rollover grace
-If rollover occurs while the player is still actively solving the prior daily in one uninterrupted session:
-- that in-progress session may finish canonically
-- the app must not silently replace that active view mid-session
+### 15.3 Protected Carryover Daily creation
+A prior daily becomes a Protected Carryover Daily only if the player submitted at least one valid guess before rollover.
 
-This is the only canonical rollover exception.
+If the player only opened the daily or viewed the case frame without submitting a valid guess:
+- that prior daily does not gain Protected Carryover Daily status
+- canonical daily priority moves to the newly published daily after rollover
 
-If the player leaves that active prior-day session and later returns after rollover:
-- the prior daily is no longer canonically resumable
-- the currently published daily becomes the default canonical daily target
+Only one Protected Carryover Daily may exist at a time.
 
-### 15.4 Post-rollover routing
-After rollover, once any active-session grace has ended:
-- Home may foreground the current daily
+### 15.4 Protected Carryover Daily continuity
+If a Protected Carryover Daily exists:
+- it remains canonically resumable after rollover
+- it stays the default resume target
+- the newly published daily may be visible on Home
+- the newly published daily must not become the player’s next canonical daily yet
+- the player must resolve or explicitly abandon the carryover daily before the new daily becomes canonical focus
+
+Protected carryover canonical eligibility ends only when one of these occurs:
+- solve
+- fail
+- explicit abandon and mark missed
+- the next rollover while still unresolved
+
+### 15.5 Explicit abandon path
+If a Protected Carryover Daily exists, the player may explicitly abandon it and mark it missed.
+
+Abandon behavior rules:
+- abandon must be explicit
+- abandon should require confirmation
+- abandon messaging should be calm and non-punitive
+- once confirmed, the carryover daily becomes Missed and loses canonical eligibility
+- after that confirmation, the new daily may become the active canonical daily
+
+### 15.6 Post-rollover routing
+After the unresolved canonical daily is concluded or explicitly abandoned:
+- Home may then foreground the new current daily
 - the transition should feel explicit and understandable
 
-### 15.5 Result preservation across rollover
+### 15.7 Result preservation across rollover
 If a player solved or failed a daily but did not dismiss the result before rollover:
 - reopening should still show the pending result state first
 - the new daily should not erase the old closure moment

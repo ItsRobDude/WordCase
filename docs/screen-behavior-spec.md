@@ -152,7 +152,7 @@ After initial load, route to the highest-priority unresolved state in this exact
 - go to First-Time Flow
 
 1. unfinished starter case
-2. Daily result screen not yet acknowledged on this device
+2. Daily result screen not yet acknowledged
 3. active in-progress Daily Case
 4. ready-and-unviewed Weekly Resolution
 5. Home
