@@ -52,7 +52,10 @@ The following terms should be used consistently across WordCase.
 The main puzzle for the day.
 
 ### Active Daily Case
-The one Daily Case that currently counts for streaks, weekly evidence, and canonical daily completion.
+The one Daily Case currently eligible for canonical daily completion.
+
+By default this is the currently published daily.
+The only rollover exception is the active-session grace rule in Section 8.
 
 ### Case Frame
 The visible mystery wrapper around a case, such as the case title, transmission text, and other non-spoiler context presented before or during play.
@@ -118,9 +121,27 @@ A Standard Daily Case should have:
 - one target answer
 - one case title
 - one visible Case Frame
+- one visible Clue
 - one visible answer length
 - a bounded number of attempts
 - deterministic feedback after each valid guess
+
+### Title, Case Frame, and Clue roles
+For the Standard Daily Case:
+- the **Case Title** exists for case identity and flavor and is not required to solve the puzzle
+- the **Case Frame** exists for atmosphere and semantic orientation and must not contradict puzzle truth
+- the **Clue** is the primary pre-guess semantic nudge
+
+### Clue strength and fairness
+The Clue may materially narrow the likely answer family.
+
+However, the case must still be solved primarily through deterministic guess feedback rather than clue cleverness.
+
+Clues must not rely on:
+- obscure trivia
+- alternate spellings
+- rare definitions
+- niche domain knowledge
 
 ### Current standard answer format
 For the Standard Daily Case:
@@ -269,6 +290,18 @@ The Standard Daily Case hint should:
 - never provide false or ambiguous information
 - never submit a guess automatically on the player's behalf
 
+### Hint selection algorithm
+Hint selection must be deterministic.
+
+For the Standard Daily Case:
+- scan answer positions from left to right
+- find the first position that is both correct for the answer and not yet revealed as fixed
+- reveal that position and letter
+
+Once a hint-revealed position is fixed, it remains visibly fixed for the rest of the case.
+
+Hint selection must not depend on randomness, device state, or presentation-layer behavior.
+
 ### Hint interaction rules
 After a hint is used:
 - previously submitted guesses and their feedback remain unchanged
@@ -304,42 +337,50 @@ However:
 ## 8. Daily Window and Rollover Rules
 
 ### One active daily at a time
-WordCase should have one Active Daily Case at a time.
+WordCase should have at most one Active Daily Case at a time for canonical completion.
 
 ### Daily boundary authority rule
-WordCase must behave as though there is one stable authoritative daily boundary for canonical daily results.
-
-The exact technical source of that boundary may be defined more precisely in save/sync or content-operation documents later.
+Canonical daily identity and canonical daily result eligibility are determined by server-published puzzle IDs and server-defined UTC validity windows.
 
 However:
 - manual device clock changes must not create extra canonical daily attempts
 - manual device clock changes must not recover Missed cases
+- manual device clock changes must not grant extra streak credit
 - timezone ambiguity must not allow the same player to earn two canonical results for one published daily
+- local device day is not authoritative
+- account timezone is not authoritative
+- local timezone may be used for display only
 
 ### Daily window rule
-The Active Daily Case is only eligible for canonical daily completion during its active daily window, subject to the active-session grace rule below.
+The currently published Daily Case is canonically eligible during its server-defined validity window.
 
 ### Active-session rollover grace rule
-If the player entered the Active Daily Case before rollover and remains in the same uninterrupted solving session:
-- they may finish that case for a canonical result
-- the case remains eligible until the player reaches its result screen or leaves that active solve session
+If rollover occurs while the player is still in an uninterrupted active solve session of the prior daily:
+- they may finish that prior daily canonically in that same uninterrupted session
 
-This grace exists to protect fairness for players who are already actively solving at the boundary.
+This is the only canonical rollover exception.
+
+If the player leaves that active solve session and later returns after rollover, that prior daily is no longer canonically resumable.
 
 ### Rollover rule
 When a new Daily Case becomes active:
-- the previous Active Daily Case stops counting as the current daily
-- the previous case no longer grants daily streak credit if solved later in a non-canonical context
-- an unfinished prior case becomes Missed unless it already had a canonical solve or fail result or is still protected by the active-session grace rule
+- the previous daily is no longer the newly published daily
+- outside the active-session rollover grace rule, the previous daily is no longer canonically resumable
+- the newly published daily becomes the default foregrounded canonical daily
 
 ### Resume-before-rollover rule
 During the active daily window, the player should be able to leave and return without losing progress.
 
 ### Missed case rule
-If the player started a Daily Case but did not reach a canonical solve or fail before the daily window and any active-session grace ended:
+If the player started a Daily Case but did not reach a canonical solve or fail before canonical eligibility ended:
 - that case is recorded as Missed for canonical daily purposes
 - it may later appear in Archive or Practice under separate rules
 - its Missed status should remain historically accurate
+
+### Offline canonical completion rule
+Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
+
+The app must not invent or guess a new live daily while fully offline when required content is missing.
 
 ---
 
@@ -372,6 +413,20 @@ The player should be able to tell:
 The Weekly Resolution is a bonus payoff case for the current week.
 It exists to reward steady participation and provide closure.
 It does not replace the seven Daily Cases and does not rewrite their recorded outcomes.
+
+### Weekly Resolution format in v1
+For v1, the Weekly Resolution uses the same core puzzle format as the Standard Daily Case.
+
+That means:
+- one single-word answer
+- five letters
+- six valid attempts
+- the same validation rules
+- the same deterministic feedback rules
+- the same duplicate-letter rules
+- the same one-hint rule
+
+In v1, Weekly Resolution differs in presentation and payoff, not deduction grammar.
 
 ### Weekly Resolution unlock rule
 The Weekly Resolution becomes available when the player has earned at least **four** evidence fragments during that weekly cycle.
@@ -498,8 +553,11 @@ Guest play should be allowed by default unless product docs intentionally change
 
 ## 12. Streak and Progress Rules
 
+Streak and weekly evidence are derived from canonical daily results and weekly resolution state.
+They should not be treated as free-floating mutable sync truth separate from canonical case outcomes.
+
 ### Daily solve streak rule
-A Daily Solve Streak increases when the player solves the Active Daily Case during its active daily window or valid active-session rollover grace.
+A Daily Solve Streak increases when the player solves the Active Daily Case canonically, including solves completed under active-session rollover grace.
 
 ### Assisted solve streak rule
 Both Solved Unassisted and Solved Assisted results increase the Daily Solve Streak when earned canonically.
