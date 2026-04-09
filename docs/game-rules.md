@@ -285,6 +285,10 @@ For the Standard Daily Case:
 - the hint is available only while the case is still active and unresolved
 - using a hint does **not** consume one of the six valid guess attempts
 
+Precedence note for v1:
+- this one-hint policy is hard-fixed gameplay truth, not per-case tuning
+- published content must not redefine v1 hint limits or unlock timing through `hintData`
+
 ### Standard hint behavior
 The Standard Daily Case hint should:
 - reveal one currently unrevealed correct letter

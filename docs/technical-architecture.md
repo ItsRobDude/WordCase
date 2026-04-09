@@ -98,6 +98,7 @@ Hint-selection logic lives in `packages/game-rules` inside the shared puzzle eng
 Rules:
 - UI must not decide which letter to reveal
 - hint behavior must be deterministic from pinned puzzle truth plus current puzzle state
+- for v1, `hintData` is treated as a validated content contract (not a tuning surface), and out-of-policy values must be rejected before activation
 
 ### 4.3 Progression ownership
 These belong to `packages/game-rules/src/progression`:
