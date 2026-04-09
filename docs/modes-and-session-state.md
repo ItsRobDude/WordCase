@@ -607,6 +607,23 @@ If a player solved or failed a daily but did not dismiss the result before rollo
 - reopening should still show the pending result state first
 - the new daily should not erase the old closure moment
 
+### 15.8 Weekly boundary and carryover attribution at rollover
+Weekly rollover behavior must use the same canonical week identity model as save/sync rules: server-published `weekId` plus server-defined UTC start/end window.
+
+Session behavior requirements:
+- Protected Carryover Daily completion after weekly rollover remains valid for that daily's original canonical `weekId`
+- that carryover completion must not grant evidence to the newly active week
+- when sync completes, old-week history should update under the original `weekId` rather than mutating the new week
+
+For cross-device conflict handling and merge consistency, this weekly identity model must match `docs/save-sync-and-account-rules.md`.
+
+### 15.9 Weekly history labeling expectations
+History surfaces should label past week outcomes consistently:
+- **Incomplete** when Weekly Resolution never unlocked before that week ended
+- **Unresolved** when Weekly Resolution unlocked but was not completed before that week ended
+
+If a prior week receives late-attributed carryover evidence, history should still preserve correct labeling semantics for that same historical `weekId`.
+
 ---
 
 ## 16. Unavailable and Error States
