@@ -258,12 +258,23 @@ Hints are allowed only when they remain fair, readable, and secondary to deducti
 For the Standard Daily Case:
 - the player may use **one** hint per case
 - the hint becomes available only after at least one valid guess has been submitted
+- the hint is available only while the case is still active and unresolved
+- using a hint does **not** consume one of the six valid guess attempts
 
 ### Standard hint behavior
 The Standard Daily Case hint should:
 - reveal one currently unrevealed correct letter
 - place that letter in its correct position
+- keep that revealed letter visibly fixed for the rest of the case
 - never provide false or ambiguous information
+- never submit a guess automatically on the player's behalf
+
+### Hint interaction rules
+After a hint is used:
+- previously submitted guesses and their feedback remain unchanged
+- the hint does not alter the answer
+- the hint does not change attempt history
+- the player must still finish the case through normal valid guess submission
 
 ### Hint result classification
 If a player uses a hint and later solves the case:
@@ -284,9 +295,9 @@ Hints must not:
 Hints may reduce eligibility for certain performance labels or future prestige metrics if those systems are added later.
 
 However:
-- a hinted solve should still count as a legitimate solve
-- a hinted solve should still preserve normal streak credit
-- a hinted solve should still contribute weekly evidence unless a later documented mode explicitly changes that rule
+- a hinted solve still counts as a legitimate solve
+- a hinted solve still preserves normal streak credit
+- a hinted solve still contributes weekly evidence unless a later documented mode explicitly changes that rule
 
 ---
 
@@ -295,23 +306,40 @@ However:
 ### One active daily at a time
 WordCase should have one Active Daily Case at a time.
 
+### Daily boundary authority rule
+WordCase must behave as though there is one stable authoritative daily boundary for canonical daily results.
+
+The exact technical source of that boundary may be defined more precisely in save/sync or content-operation documents later.
+
+However:
+- manual device clock changes must not create extra canonical daily attempts
+- manual device clock changes must not recover Missed cases
+- timezone ambiguity must not allow the same player to earn two canonical results for one published daily
+
 ### Daily window rule
-The Active Daily Case is only eligible for canonical daily completion during its active daily window.
+The Active Daily Case is only eligible for canonical daily completion during its active daily window, subject to the active-session grace rule below.
+
+### Active-session rollover grace rule
+If the player entered the Active Daily Case before rollover and remains in the same uninterrupted solving session:
+- they may finish that case for a canonical result
+- the case remains eligible until the player reaches its result screen or leaves that active solve session
+
+This grace exists to protect fairness for players who are already actively solving at the boundary.
 
 ### Rollover rule
 When a new Daily Case becomes active:
 - the previous Active Daily Case stops counting as the current daily
 - the previous case no longer grants daily streak credit if solved later in a non-canonical context
-- the player's unfinished prior case is recorded as missed unless it already had a canonical solve or fail result
+- an unfinished prior case becomes Missed unless it already had a canonical solve or fail result or is still protected by the active-session grace rule
 
 ### Resume-before-rollover rule
 During the active daily window, the player should be able to leave and return without losing progress.
 
 ### Missed case rule
-If the player started a Daily Case but did not finish before rollover:
-- that case is recorded as missed for canonical daily purposes
+If the player started a Daily Case but did not reach a canonical solve or fail before the daily window and any active-session grace ended:
+- that case is recorded as Missed for canonical daily purposes
 - it may later appear in Archive or Practice under separate rules
-- its missed status should remain historically accurate
+- its Missed status should remain historically accurate
 
 ---
 
@@ -340,8 +368,37 @@ The player should be able to tell:
 - which daily slots are completed
 - whether the Weekly Resolution is unlocked
 
+### Weekly Resolution role
+The Weekly Resolution is a bonus payoff case for the current week.
+It exists to reward steady participation and provide closure.
+It does not replace the seven Daily Cases and does not rewrite their recorded outcomes.
+
 ### Weekly Resolution unlock rule
 The Weekly Resolution becomes available when the player has earned at least **four** evidence fragments during that weekly cycle.
+
+### Weekly Resolution availability rule
+Once unlocked, the Weekly Resolution remains available until that weekly cycle rolls over.
+
+### Weekly Resolution pressure rule
+The Weekly Resolution should feel like payoff, not punishment.
+
+Therefore:
+- it must not remove or reduce already earned evidence
+- it must not extend or repair the Daily Solve Streak
+- it must not break the Daily Solve Streak if the player ignores it, leaves it unfinished, or fails an attempt
+- it must not permanently lock the player out after a single failed attempt during the same week
+
+### Weekly Resolution retry rule
+If the player does not solve the Weekly Resolution on a given attempt:
+- they may retry it again during the same weekly window
+- prior daily evidence remains intact
+- the week's board remains unlocked but unresolved until the Weekly Resolution is solved or the week rolls over
+
+### Weekly Resolution hint default
+Unless a later mode-specific document intentionally changes this:
+- the Weekly Resolution follows the same honest one-hint default as the Standard Daily Case
+- hint use does not remove previously earned evidence
+- hint use does not affect daily streak truth
 
 ### Meaning of stronger weekly participation
 Solving more Daily Cases in a week should provide:
@@ -360,6 +417,12 @@ It does not rewrite or replace the recorded outcomes of the seven Daily Cases th
 If the player does not earn enough evidence to unlock the Weekly Resolution:
 - that week's board remains incomplete in history
 - the game should preserve that result honestly rather than pretending the week was completed
+
+### Unresolved week rule
+If the Weekly Resolution is unlocked but not completed before weekly rollover:
+- that week's board remains historically incomplete or unresolved
+- the next week begins fresh
+- the player should not lose already earned daily evidence from the recorded week
 
 ---
 
@@ -389,6 +452,19 @@ However:
 - replaying them must not rewrite the player's original canonical daily history
 - replaying them must not restore a broken daily streak
 - replaying them must not grant current weekly evidence
+
+### Replay history separation rule
+If Archive or Practice results are surfaced in Profile, History, or Stats:
+- they must be stored separately or clearly labeled separately from canonical daily history
+- they must not inflate Daily Solve totals, Daily Solve Streaks, or current weekly evidence
+- they may be shown as replay or practice-only performance later if the labeling is explicit
+
+### Replay rules flexibility
+Archive or Practice may later support looser retry or assist behavior than the active daily.
+
+However:
+- any such behavior must be clearly labeled as replay-only behavior
+- it must not alter the player's original canonical result for that past daily
 
 ### Tutorial and starter content rule
 Starter Cases and tutorial-like Practice Files should not consume or replace the Active Daily Case.
@@ -423,19 +499,25 @@ Guest play should be allowed by default unless product docs intentionally change
 ## 12. Streak and Progress Rules
 
 ### Daily solve streak rule
-A Daily Solve Streak increases when the player solves the Active Daily Case during its active daily window.
+A Daily Solve Streak increases when the player solves the Active Daily Case during its active daily window or valid active-session rollover grace.
+
+### Assisted solve streak rule
+Both Solved Unassisted and Solved Assisted results increase the Daily Solve Streak when earned canonically.
+The assisted distinction exists for history truth and later prestige, not to deny the player normal streak credit.
 
 ### What breaks a streak
 For current rules, a streak breaks if the player:
 - fails the Active Daily Case
 - misses the Active Daily Case
 
-### What does not extend a streak
-The following do not extend or repair the current Daily Solve Streak:
+### What does not affect the current Daily Solve Streak
+The following do not extend, repair, or break the current Daily Solve Streak:
 - Archive replays
 - Practice Files
-- starter/tutorial cases
+- starter or tutorial cases
 - late non-canonical solves of past daily cases
+- leaving the Weekly Resolution unfinished
+- failing the Weekly Resolution
 
 ### Canonical daily result categories
 For the Standard Daily Case, the canonical result should be recorded as one of these:
@@ -519,12 +601,26 @@ If a published case is found to be broken, unfair, ambiguous beyond tolerance, o
 - the correction should be documented internally
 - the product should favor player trust over rigid metrics purity
 
-### Player-protection rule
-If a flawed live case affects player outcomes, WordCase should favor solutions such as:
-- preserving streaks
-- granting fair completion credit where appropriate
-- clearly communicating the correction if needed
+### Player-favoring correction rule
+If players were affected by a flawed live case:
+- an existing legitimate solve must never be downgraded
+- players must not lose already earned streak credit
+- players must not lose already earned weekly evidence
+- players who failed or missed because of the flaw should receive the most player-favorable reasonable recovery that still preserves history truth
 
+### Acceptable recovery outcomes
+Depending on the severity of the problem, acceptable recovery may include:
+- preserving streaks
+- granting weekly evidence
+- granting protected completion credit
+- marking the case as corrected or exceptional in history later if that history is surfaced
+
+### Correction visibility rule
+If a correction materially changes how a case is represented in player history:
+- the case should be visibly marked as corrected, protected, or otherwise exceptional if surfaced later
+- the product should not silently pretend a flawed case was ordinary if that would mislead the player about what happened
+
+### Player-protection rule
 WordCase should not punish players for the product's own mistake.
 
 ---
