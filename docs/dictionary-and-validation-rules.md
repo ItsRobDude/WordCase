@@ -237,7 +237,6 @@ Guesses should be broader than answers, but not chaotic.
 ### Valid guesses should not include:
 - slurs
 - hate terms
-- common non-slur profanity at launch
 - proper nouns in v1
 - abbreviations
 - acronyms
