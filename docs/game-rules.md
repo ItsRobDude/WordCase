@@ -236,7 +236,6 @@ This rule must be applied consistently.
 The Case Frame may add tone, flavor, or contextual orientation.
 
 However:
-- the Case Frame must not contradict the actual answer
 - the Case Frame must not make false claims about the solution
 - feedback remains the authoritative truth during the solve process
 
@@ -391,21 +390,6 @@ If the player started a Daily Case but did not reach a canonical solve or fail b
 - it may later appear in Archive or Practice under separate rules
 - its Missed status should remain historically accurate
 If the player had submitted at least one valid guess before rollover, the case should first follow Protected Carryover rules before becoming Missed.
-
-### Offline canonical completion rule
-Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
-
-The app must not invent or guess a new live daily while fully offline when required content is missing.
-
-### Offline canonical completion rule
-Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
-
-The app must not invent or guess a new live daily while fully offline when required content is missing.
-
-### Offline canonical completion rule
-Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
-
-The app must not invent or guess a new live daily while fully offline when required content is missing.
 
 ### Offline canonical completion rule
 Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
