@@ -451,6 +451,9 @@ Once the player dismisses the result:
 - home should present the next best action
 - the result should remain viewable later if the product supports that history surface
 
+Result acknowledgment is primarily device-local UI state.
+Canonical solve/fail outcome is shared cross-device truth.
+
 ---
 
 ## 13. App Lifecycle States
@@ -545,6 +548,17 @@ Daily rollover must protect trust.
 ### 15.1 Active daily identity
 Each daily case should be identified by a stable daily case ID.
 
+Canonical daily identity and canonical result eligibility are determined by server-published puzzle IDs and server-defined UTC validity windows.
+
+Local device day is not authoritative.
+Account timezone is not authoritative.
+Local timezone may be used for display only.
+
+Wrong or manually changed device clock must never:
+- unlock extra canonical dailies
+- restore missed cases
+- grant extra streak credit
+
 ### 15.2 New-day availability
 When a new calendar day becomes active for content selection:
 - a new Daily Case becomes available as the current day’s case
@@ -608,11 +622,13 @@ If required daily or archive content is not currently available:
 ### 16.2 Offline with cached content
 If the content is already present locally:
 - the player should be able to continue normally where allowed
+- canonical offline completion is allowed only when the required Daily Case package and matching validation snapshot are already cached
 
 ### 16.3 Offline without required content
 If the required content is missing:
 - the player should see a clear unavailable or download-required state
 - the app should not invent fallback case data
+- the app must not invent or guess a new live daily for canonical play
 
 ### 16.4 Save restoration issue
 If restoration partially fails:
@@ -674,6 +690,8 @@ The system should record enough state to answer:
 Important rule:
 - canonical puzzle outcome should not depend on transient UI state alone
 - view-layer state and game-truth state must remain separable
+- streak should be derived from canonical daily results rather than synced as top-level mutable truth
+- weekly evidence should be derived from canonical daily results and weekly resolution state rather than synced as top-level mutable truth
 
 ---
 

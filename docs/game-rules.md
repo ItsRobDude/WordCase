@@ -343,14 +343,16 @@ However:
 WordCase should have at most one Active Daily Case at a time for canonical completion.
 
 ### Daily boundary authority rule
-WordCase must behave as though there is one stable authoritative daily boundary for canonical daily results.
-
-The exact technical source of that boundary may be defined more precisely in save/sync or content-operation documents later.
+Canonical daily identity and canonical daily result eligibility are determined by server-published puzzle IDs and server-defined UTC validity windows.
 
 However:
 - manual device clock changes must not create extra canonical daily attempts
 - manual device clock changes must not recover Missed cases
+- manual device clock changes must not grant extra streak credit
 - timezone ambiguity must not allow the same player to earn two canonical results for one published daily
+- local device day is not authoritative
+- account timezone is not authoritative
+- local timezone may be used for display only
 
 ### Daily window rule
 The newly published Daily Case is canonically eligible during its daily window unless a Protected Carryover Daily is still unresolved.
@@ -389,6 +391,11 @@ If the player started a Daily Case but did not reach a canonical solve or fail b
 - it may later appear in Archive or Practice under separate rules
 - its Missed status should remain historically accurate
 If the player had submitted at least one valid guess before rollover, the case should first follow Protected Carryover rules before becoming Missed.
+
+### Offline canonical completion rule
+Offline canonical completion is allowed only if the required Daily Case package and matching validation snapshot were already cached locally.
+
+The app must not invent or guess a new live daily while fully offline when required content is missing.
 
 ---
 
@@ -560,6 +567,9 @@ Guest play should be allowed by default unless product docs intentionally change
 ---
 
 ## 12. Streak and Progress Rules
+
+Streak and weekly evidence are derived from canonical daily results and weekly resolution state.
+They should not be treated as free-floating mutable sync truth separate from canonical case outcomes.
 
 ### Daily solve streak rule
 A Daily Solve Streak increases when the player solves the Active Daily Case canonically, including while that case is in a valid Protected Carryover state.

@@ -543,6 +543,8 @@ Leaving results should go to:
 - Weekly Caseboard if chosen
 - Home otherwise
 
+On another device that has synced a concluded daily, the app may show concluded Home status and offer View Results without forcing the same blocking result flow, unless that device itself has a local pending unacknowledged result.
+
 ---
 
 ## 11. Weekly Caseboard Screen
