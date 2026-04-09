@@ -47,6 +47,7 @@ Version 1 dictionary and validation behavior should stay intentionally narrow.
 ### v1 mode coverage
 The rules in this document apply to:
 - daily case mode
+- weekly resolution mode
 - archive/practice versions of daily cases
 - any tutorial puzzle that uses the same guess/feedback system
 
@@ -82,7 +83,6 @@ Rules:
 - Guess Lexicon should reduce “that should have counted” frustration
 - Guess Lexicon may include words that are valid guesses but poor answer choices
 - Guess Lexicon may include selected non-US spelling variants where those variants are common and recognizable to English-speaking players
-- Guess Lexicon may include common non-slur profanity where intentionally approved
 
 ### 3.3 Blocked Terms List
 This is a moderation/safety list for words that should never be accepted or surfaced.
@@ -142,6 +142,8 @@ A guess is valid only if all of the following are true:
 ### Duplicate guess rule
 - a player may not submit the exact same guess twice in one puzzle
 - the game should show a friendly “already guessed” style message
+- duplicate guesses are rejected in every mode that uses the standard guess/feedback engine, including Daily Case, Weekly Resolution, Starter Case, Archive, and Practice
+- duplicate guess rejection must not consume an attempt
 
 ### Invalid guess handling
 Invalid guesses should fail clearly and consistently.
@@ -231,11 +233,11 @@ Guesses should be broader than answers, but not chaotic.
 - common verb tense variations
 - common everyday words that are too plain, awkward, or repetitive to use as answers
 - selected non-US spelling variants where intentionally included in the Guess Lexicon
-- common non-slur profanity where intentionally included in the Guess Lexicon
 
 ### Valid guesses should not include:
 - slurs
 - hate terms
+- common non-slur profanity at launch
 - proper nouns in v1
 - abbreviations
 - acronyms
@@ -247,11 +249,11 @@ Guesses should be broader than answers, but not chaotic.
 
 ### Profanity rule
 For v1:
-- common non-slur profanity may exist in the Guess Lexicon if it is widely recognized
-- those words must never be used as official daily answers
-- those words must never appear in hints, help text, promotional copy, or social share templates
-
-This rule exists to reduce player frustration without making WordCase feel cheap or hostile.
+- common non-slur profanity is out at launch
+- profanity is not valid as answers
+- profanity is not valid as guesses at launch
+- profanity should be revisited only through a later explicit lexicon review if needed
+- profanity must never appear in hints, help text, promotional copy, or social share templates
 
 ---
 
@@ -269,6 +271,16 @@ For v1:
 - WordCase may accept selected non-US spelling variants as valid guesses
 - non-US spelling variants should not be used as official daily answers in v1
 - inclusion of non-US spelling variants in the Guess Lexicon should be intentional rather than automatic
+
+Day-one allowed UK spelling guesses:
+- fibre
+- litre
+- metre
+- mould
+- odour
+- sabre
+
+No broad automatic UK-variant import is allowed for launch.
 
 ### Variant spelling rule for answers
 If a word has multiple common spellings or variant forms:
@@ -368,6 +380,26 @@ If a major content mistake ever forces a correction:
 
 WordCase should validate locally for responsiveness, but validation data still needs a source of truth.
 
+### Canonical editable source files
+The canonical editable lexicon source files are:
+- `apps/content-tools/data/lexicons/en-US/answer-lexicon-v1.txt`
+- `apps/content-tools/data/lexicons/en-US/guess-lexicon-v1.txt`
+- `apps/content-tools/data/lexicons/en-US/blocked-terms-v1.txt`
+- `apps/content-tools/data/lexicons/en-US/lexicon-manifest-v1.json`
+
+### Generated runtime snapshot
+Runtime validation uses the generated snapshot:
+- `packages/validation/src/generated/en-US/validation-snapshot-v1.json`
+
+### Lexicon source file format rules
+All canonical source lexicon files must be:
+- lowercase ASCII
+- one word per line
+- sorted
+- no duplicates
+- free of inline comments
+- normalized exactly as runtime validation expects
+
 ### Local validation
 The client should perform local validation for:
 - fast input feedback
@@ -385,6 +417,15 @@ Published puzzle content should come from a trusted content source such as:
 An active puzzle session should use the validation snapshot associated with that puzzle’s published version.
 
 This prevents validation drift during a solve.
+
+### Weekly Resolution validation rule
+Weekly Resolution uses the same validation snapshot family as the related week’s daily content, including:
+- the same `dictionaryVersion`
+- the same normalization rules
+- the same blocked terms version
+- the same duplicate-letter algorithm version
+
+Do not create a special weekly-only validation regime unless a later document explicitly defines it.
 
 ---
 
@@ -437,7 +478,10 @@ Dictionary disputes are normal and should be handled intentionally.
 - moderation list changes should be reviewed carefully
 
 ### Human review rule
-No daily answer should go live without human approval from the curated answer pool.
+The product owner or lead content curator is the final authority for Answer Lexicon curation.
+
+No answer enters the Answer Lexicon without human approval.
+No daily answer should go live without explicit human approval from the curated answer pool.
 
 Automated filtering may assist.
 Automated filtering should not be the final judge of fairness.

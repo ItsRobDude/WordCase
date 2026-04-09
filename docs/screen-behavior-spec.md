@@ -97,9 +97,9 @@ All important UI meaning must remain clear with sound off and haptics off.
 ## 4. Navigation Model
 
 ### 4.1 Primary navigation approach
-WordCase should use a small bottom navigation in normal app flow.
+WordCase uses a small bottom navigation in normal app flow.
 
-Recommended bottom navigation for the current direction:
+Bottom navigation in the first real product slice is:
 
 - **Home**
 - **Archive**
@@ -108,7 +108,7 @@ Recommended bottom navigation for the current direction:
 This keeps the app simple and daily-centered.
 
 ### 4.2 Why Weekly Caseboard is not a main tab
-The Weekly Caseboard should be a major surface, but not a permanent bottom-tab destination in the first version.
+The Weekly Caseboard is a major surface, but not a bottom-tab destination in the first version.
 
 Reason:
 
@@ -123,14 +123,14 @@ The Weekly Caseboard should be opened from:
 - occasional progress prompts when relevant
 
 ### 4.3 Settings access
-Settings should not be a bottom tab.
+Settings is not a bottom tab.
 Settings should be reached from:
 
 - Profile screen
 - Pause overlay where relevant
 
 ### 4.4 Social and event surfaces
-Social comparison and event surfaces should not appear in primary navigation until those systems are real.
+Social, event, and store surfaces do not appear in primary navigation in the first real product slice.
 
 ---
 
@@ -146,20 +146,20 @@ On cold launch, the app should:
 The startup or title moment should feel polished, but should never become a long intro that slows repeat use.
 
 ### 5.2 Routing rules after launch
-After initial load, route as follows:
+After initial load, route to the highest-priority unresolved state in this exact order:
 
 **If first launch ever**
 - go to First-Time Flow
 
-**If an active Daily Case exists and is not solved or failed**
-- go directly to the Daily Case screen
-- show a small "Resumed Today's Case" toast if helpful
+1. unfinished starter case
+2. Daily result screen not yet acknowledged
+3. active in-progress Daily Case
+4. ready-and-unviewed Weekly Resolution
+5. Home
 
-**If today's case is already completed**
-- go to Home
+Weekly Resolution must not preempt unresolved starter, result-acknowledgment, or active daily states.
 
-**If no daily case is active yet**
-- go to Home with Today's Case card highlighted
+Home is the default calm routing surface once nothing higher-priority needs preservation.
 
 ### 5.3 Hard failure behavior
 If required case content fails to load:
@@ -246,9 +246,7 @@ Home should contain:
 - top app bar
 - primary Today or Continue card
 - Weekly Caseboard progress card
-- Archive or Practice entry card
-- optional secondary stats strip
-- later-only event slot hidden by default
+- Archive or Practice entry card when archive content is available
 
 ### 7.3 Top app bar
 Recommended elements:
@@ -265,40 +263,57 @@ This is the most important card on Home.
 It should change state based on progress.
 
 **Before today is started**
+- show **Today's Case** label
 - show case title
-- show short teaser line
+- show one-line teaser
+- show **5 Letters**
+- show **6 Attempts**
 - primary button: **Start Today's Case**
 
 **Mid-case**
-- show progress summary
+- show **Today's Case** label
+- show case title
+- show progress summary (such as attempts used)
+- show hint-used status if relevant
 - primary button: **Continue Case**
 
 **After solve**
-- show completion state
-- show result summary
+- show **Today's Case** label
+- show case title
+- show solved badge
+- show attempts used
+- show Assisted or Unassisted tag
 - primary button: **View Results** or **View Weekly Evidence**
 
 **After fail**
-- show case resolved state
+- show **Today's Case** label
+- show case title
+- show concluded badge
 - primary button: **Review Result**
+- do not reveal the answer on Home before result review
 
 ### 7.5 Weekly Caseboard card
 This should appear directly below the Today card.
 
 It should show:
 
-- current weekly case title
-- evidence collected count or progress visualization
-- clear state of locked versus unlocked weekly progress
+- **This Week's Case** label
+- weekly case title
+- evidence count
+- resolution status: locked, ready, or resolved
 - tap target to open the full Weekly Caseboard screen
 
 ### 7.6 Archive or Practice card
-This should remain visible but secondary.
-It exists for players who want extra play without confusing the daily hierarchy.
+This card remains secondary and uncluttered.
+It shows:
+
+- **Archive** label
+- playable count or simple descriptor
+- **Browse Archive** CTA
 
 ### 7.7 Event slot behavior
 Event content should not reserve permanent empty space before events exist.
-If no event is active, nothing event-related should appear.
+If no event is active, nothing event-related appears on Home.
 
 ### 7.8 Home screen states
 Home should support these states:
@@ -346,13 +361,13 @@ Recommended contents:
 The top bar must stay minimal.
 
 ### 8.4 Transmission and clue area
-The upper content area should establish the fantasy.
-It should include:
+The upper content area stays tight and readable.
+It includes:
 
 - case title
-- one short clue or transmission framing element
-- optional flavor text if brief
-- no giant lore blocks
+- one short transmission or case-frame line
+- one optional short clue line
+- no long lore blocks on the main case screen
 
 The clue area should not push the main puzzle too far down the screen.
 
@@ -384,7 +399,7 @@ It should not dominate the main solving area.
 If hints exist, they should appear as:
 
 - a small button or chip
-- a bottom sheet or modal when opened
+- a bottom sheet when opened
 - clearly labeled cost or consequence if any exists later
 
 ### 8.8 Daily Case screen states
@@ -435,6 +450,14 @@ If the player leaves the screen mid-case:
 
 Back behavior should not silently reset or discard progress.
 
+### 8.11 How Feedback Works visibility
+How Feedback Works is taught explicitly in the starter case.
+
+In live daily play:
+- show a small dismissible **How feedback works** link on the Daily Case screen for the player's first 3 live daily cases
+- stop surfacing that link automatically after those first 3 live daily cases
+- keep How Feedback Works permanently accessible from Pause/Help
+
 ---
 
 ## 9. Pause or Case Menu Overlay
@@ -472,38 +495,47 @@ It should:
 - explain what happened clearly
 - show immediate progress impact
 - offer one strong next action
+- transition in and out briefly and with restrained motion
 
 ### 10.2 Success result layout
-Recommended contents:
+Success results show:
 
-- solved state headline
-- answer confirmation
-- concise performance summary
-- weekly evidence gain or progress update
-- primary button
-- secondary share button
+- solved headline
+- case title
+- correct answer
+- attempts used as X/6
+- solve class tag: Assisted or Unassisted
+- weekly evidence gained
+- current weekly progress summary
+- primary CTA: **View Weekly Evidence** if the weekly board changed meaningfully, otherwise **Return Home**
+- secondary CTA: **Share Result**
 
 ### 10.3 Failure result layout
-Recommended contents:
+Failure results show:
 
-- fail state headline
-- revealed answer
-- concise explanation or clue-context review
-- clear statement of whether weekly progress changed
-- primary next action
-- optional share button if spoiler-safe
+- fail or unsolved headline
+- case title
+- correct answer reveal
+- attempts used as 6/6
+- clear weekly evidence outcome (normally no evidence gained)
+- weekly progress summary if helpful
+- primary CTA: **Return Home**
+- secondary CTA: **Share Result**
 
 ### 10.4 Primary action rules
-The primary button should usually be:
+Primary CTA rules:
 
-- **View Weekly Evidence** if the weekly board meaningfully changed
-- otherwise **Return Home**
+- use **View Weekly Evidence** only when the weekly board changed meaningfully
+- otherwise use **Return Home**
 
 Do not overload the result screen with five competing buttons.
 
 ### 10.5 Share behavior
 Sharing should always be spoiler-safe.
 The share entry point should be visible but secondary.
+
+If streak impact is shown, keep it low-emphasis.
+Do not add currencies, ad prompts, premium upsells, chest rewards, or similar clutter to the result screen.
 
 ### 10.6 Return routing
 Leaving results should go to:
@@ -586,13 +618,12 @@ Do not show:
 - empty premium shelves before those systems exist
 
 ### 12.5 Archive behavior in early milestones
-In the first vertical slice, Archive may contain only:
+Archive is visible only when it contains real playable content.
 
-- starter case replay if allowed
-- one or two practice files
-- or a clear "Archive coming later" state if intentionally deferred
-
-If deferred, it should be a clean intentional state, not a fake feature.
+Rules:
+- do not show an empty "coming soon" Archive in a real public or playtest build
+- for early internal or dev builds, Archive may remain hidden until content exists
+- for real public or playtest builds, show Archive only when it has actual playable content, such as starter replay and/or at least one practice file
 
 ---
 
@@ -754,11 +785,14 @@ Loading states should be:
 ### 17.2 Empty states
 Empty states should appear for:
 
-- archive with no available files yet
 - profile with no long-term stats yet
 - weekly caseboard before enough evidence exists
 
 Empty states should feel intentional, not unfinished.
+
+For Archive visibility rules, follow Section 12.5:
+- real public/playtest builds do not expose an empty Archive surface
+- internal/dev builds may hide Archive entirely until playable content exists
 
 ### 17.3 Error states
 Every major screen that depends on loadable content should have a defined error state with:
@@ -801,7 +835,7 @@ The screens that should be treated as **fully required** for the first strong pl
 The screens that should be **behaviorally defined now but can be shallower in first implementation** are:
 
 - Weekly Caseboard
-- Archive or Practice
+- Archive or Practice (shown only when playable content exists)
 
 The screens that should be **hidden entirely for now** are:
 
