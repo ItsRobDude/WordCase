@@ -71,7 +71,7 @@ These docs may be created just before the milestone that needs them, but they mu
 - `docs/audio-visual-style-guide.md`
 - `docs/accessibility-localization-and-device-support.md`
 - `docs/progression-economy-and-monetization.md`
-- `docs/analytics-and-experimentation.md`
+- `docs/analytics-and-experimentation.md` (authoritative analytics taxonomy, required fields, privacy boundaries, and experiment guardrails)
 
 If a milestone depends on a missing doc, create or finalize that doc before serious coding starts for that milestone.
 
@@ -301,7 +301,7 @@ By Milestone 2:
 - all Milestone 1 docs
 - `docs/save-sync-and-account-rules.md`
 - `docs/content-pipeline-and-liveops.md`
-- `docs/analytics-and-experimentation.md`
+- `docs/analytics-and-experimentation.md` (authoritative analytics taxonomy, required fields, privacy boundaries, and experiment guardrails)
 
 ### Definition of done
 Milestone 2 is done when:
@@ -394,7 +394,7 @@ Add lightweight social and stronger content operations only after the daily and 
 ### Docs required before Milestone 5 begins
 - all Milestone 4 docs
 - `docs/content-pipeline-and-liveops.md` finalized enough for regular publishing
-- `docs/analytics-and-experimentation.md`
+- `docs/analytics-and-experimentation.md` (authoritative analytics taxonomy, required fields, privacy boundaries, and experiment guardrails)
 - `docs/progression-economy-and-monetization.md` if any retention reward layer is added
 
 ### Definition of done
@@ -462,7 +462,7 @@ At minimum:
 - `docs/engineering-standards.md`
 - `docs/audio-visual-style-guide.md`
 - `docs/accessibility-localization-and-device-support.md`
-- `docs/analytics-and-experimentation.md`
+- `docs/analytics-and-experimentation.md` (authoritative analytics taxonomy, required fields, privacy boundaries, and experiment guardrails)
 - `docs/milestone-implementation-plan.md`
 
 ### Definition of done

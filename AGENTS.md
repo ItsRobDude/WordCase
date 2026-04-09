@@ -110,7 +110,7 @@ Also read:
 
 #### If the task involves analytics, telemetry, experiments, or funnel measurement
 Also read:
-- `docs/analytics-and-experimentation.md`
+- `docs/analytics-and-experimentation.md` (authoritative taxonomy, payload contract, privacy boundaries, and experiment guardrails)
 
 #### If the task involves module boundaries, persistence, content loading, backend scope, or app architecture
 Also read:
