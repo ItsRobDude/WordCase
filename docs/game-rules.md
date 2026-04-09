@@ -423,6 +423,39 @@ A weekly investigation consists of:
 - seven daily evidence slots
 - one Weekly Resolution
 
+### Weekly boundary authority rule
+Canonical weekly identity must be determined by a server-published `weekId` and a server-defined UTC start/end window for that `weekId`.
+
+Authority rules:
+- server-published `weekId` + UTC window are authoritative
+- local device calendar week is not authoritative
+- account timezone is not authoritative
+- local timezone may be used for display only
+
+For save/sync conflict handling, this weekly identity model must match `docs/save-sync-and-account-rules.md`.
+
+### Evidence attribution rule for carryover solves
+Evidence must be attributed to the canonical week that owns the solved Daily Case ID, not the wall-clock week when the player pressed the final solve guess.
+
+That means:
+- a solve on a Protected Carryover Daily contributes evidence to the original daily's canonical `weekId`
+- the newly active week does not receive that carryover evidence
+- weekly evidence attribution must remain deterministic across offline sync and cross-device conflict resolution
+
+### Protected carryover solve after weekly rollover
+If a Protected Carryover Daily resolves after weekly rollover:
+- the solved result is still canonical for that daily ID
+- evidence is applied to the prior week identified by that daily's canonical `weekId`
+- the current week starts fresh and does not inherit this carryover evidence
+- weekly history for the prior week must update consistently once sync settles
+
+### Weekly history labeling rule
+Weekly history should distinguish:
+- **Incomplete**: weekly evidence threshold for Weekly Resolution was never reached before the week window ended
+- **Unresolved**: Weekly Resolution was unlocked but not completed before the week window ended
+
+If late carryover resolution changes old-week evidence totals, labeling should still reflect the old week's final canonical state under the same `weekId`, not be reinterpreted under the new week.
+
 ### Evidence rule
 Each solved Daily Case grants one evidence fragment to the current week's Caseboard.
 
