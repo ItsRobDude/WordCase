@@ -187,6 +187,7 @@ Rules:
 - backgrounding should not discard it
 - the starter case should remain resumable until completed or intentionally restarted
 - the starter case should be simpler and more guided than the real daily
+- starter answer length, attempts, hint timing, validation parity, and canonical-progress treatment MUST follow `docs/game-rules.md` section **“Starter Case Rules (Normative)”**
 
 ### 6.3 Starter case completion
 When the starter case is solved:

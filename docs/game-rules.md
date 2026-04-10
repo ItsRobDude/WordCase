@@ -624,6 +624,16 @@ The first-time player experience should create confidence quickly.
 ### Starter case rule
 On first launch, WordCase should provide a short guided starter case before pushing the player into the live daily structure.
 
+### Starter Case Rules (Normative)
+To prevent interpretation drift, the Starter Case MUST follow these explicit rules unless this section is intentionally revised:
+
+- **Answer length:** The Starter Case answer MUST be exactly five letters.
+- **Attempt count:** The Starter Case MUST allow exactly six valid attempts; invalid guesses MUST NOT consume attempts.
+- **Hints:** The Starter Case MUST include exactly one honest hint, and that hint MUST stay locked until after the player's first valid guess. The hint SHOULD be visibly discoverable from case start, with its locked state clearly communicated.
+- **Validation parity:** Starter Case guess validation MUST match the Standard Daily Case validation policy exactly. Any exception MUST be explicitly enumerated here; currently, no exceptions are allowed.
+- **Result authority:** Starter Case outcomes MUST be treated as tutorial-only results and MUST NOT be recorded as canonical Daily Case outcomes.
+- **Progress contribution:** Completing the Starter Case MUST NOT grant Weekly Caseboard evidence and MUST NOT increase, repair, or break Daily Solve Streak or canonical Daily history.
+
 ### First-win rule
 The starter experience should aim to produce a fast first win.
 
