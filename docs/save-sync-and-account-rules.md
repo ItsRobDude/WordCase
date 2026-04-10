@@ -186,6 +186,14 @@ Expected winner:
 - canonical stored result remains solved
 - Device A must converge to solved state after sync and clear its pending abandon outbox item as superseded
 
+
+### 5.8 Canonical/shared truth vs device-local resume truth
+Canonical result/history records are long-lived shared truth and drive eligibility, streak, and weekly evidence.
+
+Device-local active session snapshots preserve exact in-progress board/input resume fidelity and must not overwrite canonical concluded outcomes.
+
+Result acknowledgment remains local UI state and must not rewrite canonical shared outcome truth.
+
 ---
 
 ## 6. Archive and Practice Sync Scope

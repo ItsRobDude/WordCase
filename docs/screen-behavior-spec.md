@@ -442,7 +442,22 @@ Requirements:
 - disabled or inactive states should be visually clear
 - input should feel responsive
 
-### 8.6.1 Daily Case input behavior with fixed hint positions (normative)
+### 8.6.1 Keyboard state aggregation (normative)
+On-screen keyboard keys aggregate to the strongest earned state in the current puzzle and never downgrade.
+
+Priority order:
+- **Confirmed** > **Present Elsewhere** > **Ruled Out** > **Default**
+
+Mandatory aggregation rules:
+- an invalid guess does not change keyboard state
+- a duplicate-guess rejection does not change keyboard state
+- if duplicate-letter situations create mixed local outcomes across rows, keyboard state still keeps the highest-confidence global state
+- a hint-revealed fixed letter promotes that key to at least **Confirmed**
+- fixed-cell locking remains a board/input behavior contract and is not a separate keyboard-truth layer
+- keyboard state treatment must use more than color alone (for example color + fill/border/icon/text treatment)
+
+### 8.6.2 Daily Case input behavior with fixed hint positions (normative)
+
 When a hint reveals a fixed letter position, input handling must follow these mandatory rules:
 
 - fixed hint positions are locked and cannot be edited directly in the active row
@@ -457,7 +472,7 @@ Player-facing feedback for override attempts must be exact and immediate:
 - show a non-blocking toast with the message: **Hint-locked letter cannot be changed.**
 - preserve all other editable letters in the row so the player can correct and resubmit quickly
 
-### 8.6.2 Example turn: before and after hint use
+### 8.6.3 Example turn: before and after hint use
 Example answer (hidden from player): **CRANE**
 
 Before hint use:
@@ -476,6 +491,23 @@ After hint use:
 - Row 2 active input becomes: `C _ _ _ _` with cell 1 locked
 - Row 3+ (future rows) initialize as `C _ _ _ _` with cell 1 locked
 - If player attempts `B` in cell 1 via any input path, submission is rejected with **Hint-locked letter cannot be changed.** and no attempt is consumed
+
+
+### 8.6.4 Tile feedback reveal sequence and cue order (normative)
+After a valid guess is submitted:
+
+1. the submitted row locks immediately
+2. the valid-submit cue fires once
+3. feedback reveals left-to-right using:
+   - per-tile state transition duration: **160ms**
+   - per-tile stagger: **80ms**
+4. after the final tile resolves, terminal solve/fail cue and result routing may fire if the guess is terminal
+
+Mandatory guardrails:
+- input remains locked during reveal
+- no extra per-letter sound effects in v1
+- if the guess is non-terminal, input becomes active again immediately after the final tile resolves
+- with reduced motion enabled, all five tile states reveal together with minimal fade (no staggered motion)
 
 ### 8.7 Hint or assist access
 Hint access must stay secondary.

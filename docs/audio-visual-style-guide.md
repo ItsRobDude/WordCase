@@ -321,6 +321,20 @@ It should never slow the repeat-use daily loop.
 - dramatic camera-like zooms
 - long transition sequences before the player can interact again
 
+
+### 8.1 Daily guess feedback reveal contract
+For Daily Case valid-guess feedback, motion and cue timing must align with `docs/screen-behavior-spec.md`:
+- row lock occurs immediately on valid submit
+- valid-submit cue fires once before tile-state reveal
+- tile-state reveal runs left-to-right at `160ms` per tile with `80ms` stagger
+- solve/fail cue (if terminal) fires only after final tile resolve
+- input remains locked during reveal and re-enables only after final tile resolve for non-terminal guesses
+
+Reduced-motion behavior for this reveal:
+- reveal all tile states together
+- use minimal fade only
+- avoid stagger and larger transforms
+
 ### Motion rules for core surfaces
 - Home should feel quick and stable
 - Daily Case should feel almost static except where state truly changes
