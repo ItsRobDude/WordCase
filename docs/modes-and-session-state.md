@@ -224,6 +224,8 @@ Secondary cards may include:
 - Profile progress
 - event content later
 
+Weekly Home-card visibility is milestone-gated by `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”**.
+
 ### 7.3 Home after daily solve
 After the Daily Case is solved:
 - home should reflect that status clearly
@@ -316,6 +318,7 @@ Behavior:
 ## 9. Weekly Caseboard States
 
 The Weekly Caseboard should be simple enough to understand at a glance.
+Whether these states are player-visible in a given build is controlled by `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”**.
 
 ### 9.1 Weekly Board Hidden / Not Yet Introduced
 Before the player completes the starter case or before the weekly layer is revealed, the Weekly Caseboard may remain visually minimized.
@@ -692,6 +695,8 @@ Allowed common transitions include:
 - Archive → Practice Case
 - Practice Case → Result
 - Result → Archive or Home
+
+The `Home → Weekly Caseboard` transition is enabled only in milestones where the matrix in `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”** marks the Weekly route as accessible.
 
 ### 17.2 Transition discipline
 Transitions should be:
