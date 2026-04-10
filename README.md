@@ -190,6 +190,16 @@ The current core source-of-truth docs are:
 
 A more specific doc should be treated as more authoritative than this README when it intentionally defines a narrower area in more detail.
 
+## Contribution Guidance
+
+When opening a PR or writing a final contributor report, include the required doc-conflict template from `AGENTS.md` whenever you find conflicting docs or sections.
+
+Include all four items:
+- conflicting docs/sections
+- chosen interpretation
+- why it preserves fairness/trust
+- follow-up doc updates needed
+
 ---
 
 ## Current Build Strategy
