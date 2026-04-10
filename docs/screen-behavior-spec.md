@@ -157,20 +157,21 @@ After initial load, routing must follow this strict decision tree:
 
 1. **Primary target state**
    - If first launch ever: First-Time Flow.
-   - Otherwise, highest-priority unresolved state in this exact order:
+   - Otherwise, choose the first valid state in this exact order:
      1. unfinished starter case
      2. Daily result screen not yet acknowledged
      3. unresolved Protected Carryover Daily
      4. active in-progress current-day Daily Case
-     5. ready-and-unviewed Weekly Resolution
-     6. Home
+     5. Home
 2. **Fallback when target data is unavailable or corrupt**
    - route to the next valid state in the same ordered list
    - never synthesize missing puzzle/session data to preserve a higher-priority route
 3. **Final safe fallback screen**
    - Home, with a clear lightweight recovery message if any higher-priority state failed restoration
 
-Weekly Resolution must not preempt unresolved starter, result-acknowledgment, Protected Carryover Daily, or active daily states.
+Normative clarification:
+- **ready-and-unviewed Weekly Resolution is a Home CTA state, not an app-open routing target.**
+- On launch/resume, Weekly Resolution should be surfaced from Home once higher-priority unresolved states are cleared.
 
 ### 5.3 Hard failure behavior
 If required case content fails to load:
@@ -190,18 +191,13 @@ Do not dump the player into a broken blank screen.
 
 2. **Warm resume**
    - Primary target state: exact active Daily Case screen that was open before backgrounding.
-   - Fallback when target data is unavailable/corrupt: next valid unresolved daily state (carryover first, then current-day active daily).
+   - Fallback when target data is unavailable/corrupt: next valid unresolved daily state (carryover first, then Home).
    - Final safe fallback screen: Home.
 
 3. **Post-result reopen**
    - Primary target state: same result screen until acknowledgment.
    - Fallback when target data is unavailable/corrupt: concluded Home state with a non-blocking **View Results** entry when canonical solve/fail exists.
-   - Final safe fallback screen: Home.
-
-4. **Rollover with Protected Carryover**
-   - Primary target state: unresolved Protected Carryover Daily from the prior canonical day.
-   - Fallback when target data is unavailable/corrupt: carryover case intro/state-rebuild entry using canonical carryover identity (no auto-abandon).
-   - Final safe fallback screen: Home with carryover status and retry path.
+   - Final safe fallback screen: Home (which may present **Resolve Weekly Caseboard** CTA when ready-and-unviewed).
 
 ---
 
