@@ -437,12 +437,18 @@ If a Protected Carryover Daily resolves after weekly rollover:
 - the current week starts fresh and does not inherit this carryover evidence
 - weekly history for the prior week must update consistently once sync settles
 
-### Weekly history labeling rule
-Weekly history should distinguish:
-- **Incomplete**: weekly evidence threshold for Weekly Resolution was never reached before the week window ended
-- **Unresolved**: Weekly Resolution was unlocked but not completed before the week window ended
+### Canonical weekly history state rule
+Weekly history uses exactly one canonical outcome state per `weekId`:
+- **incomplete**: Weekly Resolution was never unlocked before that week window ended.
+- **unresolved**: Weekly Resolution was unlocked at least once during that week window, but no Weekly Resolution run solved before the week window ended.
+- **resolved**: at least one Weekly Resolution run solved before that week window ended.
 
-If late carryover resolution changes old-week evidence totals, labeling should still reflect the old week's final canonical state under the same `weekId`, not be reinterpreted under the new week.
+Trigger conditions are deterministic and mutually exclusive:
+- if `weeklyResolutionSolved=true` before window end, state is `resolved`
+- else if `weeklyResolutionUnlocked=true` before window end, state is `unresolved`
+- else state is `incomplete`
+
+If late carryover resolution changes old-week evidence totals, reevaluate using these same triggers for that same historical `weekId`; never assign more than one canonical state to a single `weekId`.
 
 ### Evidence rule
 Each solved Daily Case grants one evidence fragment to the current week's Caseboard.
@@ -544,14 +550,19 @@ It does not rewrite or replace the recorded outcomes of the seven Daily Cases th
 
 ### Incomplete week rule
 If the player does not earn enough evidence to unlock the Weekly Resolution:
-- that week's board remains incomplete in history
+- that week's canonical history state is `incomplete`
 - the game should preserve that result honestly rather than pretending the week was completed
 
 ### Unresolved week rule
 If the Weekly Resolution is unlocked but not completed before weekly rollover:
-- that week's board remains historically incomplete or unresolved
+- that week's canonical history state is `unresolved`
 - the next week begins fresh
 - the player should not lose already earned daily evidence from the recorded week
+
+### Resolved week rule
+If any Weekly Resolution run is solved before weekly rollover:
+- that week's canonical history state is `resolved`
+- the week remains recorded as resolved even if earlier runs in that same week failed
 
 ---
 

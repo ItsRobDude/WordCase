@@ -669,11 +669,13 @@ Session behavior requirements:
 For cross-device conflict handling and merge consistency, this weekly identity model must match `docs/save-sync-and-account-rules.md`.
 
 ### 15.9 Weekly history labeling expectations
-History surfaces should label past week outcomes consistently:
-- **Incomplete** when Weekly Resolution never unlocked before that week ended
-- **Unresolved** when Weekly Resolution unlocked but was not completed before that week ended
+History surfaces should label past week outcomes using the same canonical state names as `docs/game-rules.md`:
+- **incomplete** when Weekly Resolution never unlocked before that week ended
+- **unresolved** when Weekly Resolution unlocked but was not completed before that week ended
+- **resolved** when any Weekly Resolution run solved before that week ended
 
-If a prior week receives late-attributed carryover evidence, history should still preserve correct labeling semantics for that same historical `weekId`.
+A single `weekId` must map to exactly one of these states.
+If a prior week receives late-attributed carryover evidence, recompute using the same deterministic trigger order (`resolved` > `unresolved` > `incomplete`) for that same historical `weekId`.
 
 ---
 

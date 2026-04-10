@@ -121,6 +121,11 @@ Do not sync streak as top-level mutable truth.
 Weekly evidence is derived from canonical solved daily results and weekly resolution state.
 Do not sync weekly evidence as top-level mutable truth.
 
+Canonical weekly history outcome must resolve to exactly one state per `weekId` using the same names as game/session docs:
+- `resolved` if any Weekly Resolution run solved before week end
+- `unresolved` if Weekly Resolution unlocked but no run solved before week end
+- `incomplete` if Weekly Resolution never unlocked before week end
+
 ### 5.4 Result acknowledgment conflicts
 Result acknowledgment is primarily device-local UI state.
 Canonical solve/fail state is shared truth.
