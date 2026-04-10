@@ -366,7 +366,7 @@ It includes:
 
 - case title
 - one short transmission or case-frame line
-- one optional short clue line
+- one short clue line
 - no long lore blocks on the main case screen
 
 The clue area should not push the main puzzle too far down the screen.
