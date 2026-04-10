@@ -239,12 +239,11 @@ For Milestone 1:
 The real playable Weekly Caseboard belongs to Milestone 3.
 
 ### Is Archive visible in Milestone 1 or deferred?
-Default answer:
-- Archive is **deferred** from the first real player-facing Milestone 1 slice
-
-Exception:
-- Archive may be visible in Milestone 1 only if it contains real playable content, such as a starter replay and at least one true practice file
-- if that content does not exist yet, keep Archive hidden rather than exposing an empty/fake shell
+Milestone 1 uses the shared Archive gating rules for Milestones 0/1/2:
+- Archive tab is **hidden entirely by default** (bottom nav is Home + Profile only)
+- **visible-but-disabled Archive is not allowed**
+- Archive becomes visible only when minimum content unlock criteria are met: at least **2 real playable entries** (a replayable starter case + at least one additional real practice/archive case)
+- if this minimum is not met, Archive remains fully hidden (no tab, no dead-end route, no disabled placeholder)
 
 ### Docs required before Milestone 1 begins
 - `README.md`
@@ -317,9 +316,13 @@ Replace the bundled single-case vertical slice with a real daily content system 
 - archive foundations for past dailies and/or practice content when real
 
 ### Milestone 2 answer: Archive visible or deferred?
-By Milestone 2:
-- Archive should become visible only if it contains real browseable content
-- if archive foundations are implemented, they must be truly playable and clearly non-canonical
+Milestone 2 keeps the same Archive gating rules as Milestone 1:
+- Archive tab is hidden until unlock criteria are met
+- **visible-but-disabled Archive is not allowed**
+- unlock criteria remain at least **2 real playable entries** (a replayable starter case + at least one additional real practice/archive case)
+- if exposed, archive foundations must be truly playable and clearly non-canonical
+
+For Milestone 0/1/2 Archive gating, this document is the source of truth when it conflicts with `docs/screen-behavior-spec.md`.
 
 ### Docs required before Milestone 2 begins
 - all Milestone 1 docs
