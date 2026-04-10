@@ -17,6 +17,11 @@ This README is the current top-level source of truth for WordCase product direct
 Focused documents under `docs/` exist to refine this overview with more exact product and engineering rules.
 When a more specific document goes deeper than this README, the more specific document should win.
 
+Current repo phase note:
+- command names in `docs/engineering-standards.md` section 5.1 are normative targets
+- those commands become mandatory once workspace scaffolding exists
+- during docs-only phase work, contributors should run document-consistency checks only (if any are currently available)
+
 ---
 
 ## Project Goal
