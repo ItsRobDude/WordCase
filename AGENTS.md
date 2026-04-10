@@ -63,6 +63,14 @@ Important rules:
 - do not assume current code is automatically the product truth
 - if a focused doc goes deeper than `README.md`, the focused doc wins for that area
 
+### Required conflict-template when docs disagree
+If two docs (or two sections) conflict, contributors must include this short template in the PR description or final report:
+
+- **Conflicting docs/sections:** `<doc path + section>` vs `<doc path + section>`
+- **Chosen interpretation:** `<the interpretation followed in this change>`
+- **Why this preserves fairness/trust:** `<short rationale>`
+- **Follow-up doc updates needed:** `<specific docs/sections to reconcile>`
+
 ### Read only the docs you need
 Do **not** read every doc by default.
 Use this routing guide to stay focused and avoid context bloat.
