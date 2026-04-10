@@ -113,6 +113,16 @@ Rules:
 - Conflicting unlock/evidence writes for the same `week_id` use server-authoritative canonical ordering (`recordedAtServer`) as tie-break authority; device-captured timestamps are non-authoritative hints.
 - Late-arriving evidence synced after week close must trigger recomputation for that historical `week_id` only and must not be reattributed to the active week.
 - Once a `week_id` reaches unlocked/eligible status, reconciliation must never retroactively transition it back to `locked`.
+- Late-unlock grace window contract for historical `week_id`:
+  - `lateUnlockGraceDurationHours` is fixed at `24`
+  - grace anchor timestamp is `weekly_case_records.validity_ends_at_utc` for that historical `week_id` (not unlock-write timestamp)
+  - run start eligibility is determined by server UTC only (`recordedAtServer`)
+  - a run started on/before grace expiry remains completion-eligible even if solved after expiry
+  - no new runs may start after grace expiry for that historical `week_id`
+- Canonical weekly history mapping for a `week_id` remains:
+  - `resolved` if any eligible run solved (including grace-eligible run started before expiry)
+  - `expired_unresolved` for session-state terminality when no eligible run solved after unlock
+  - history-layer naming still maps unlocked-without-solve to `unresolved` in product docs
 
 ---
 
