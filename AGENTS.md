@@ -51,8 +51,8 @@ WordCase should **not** feel like:
 ### Source-of-truth order
 When working in WordCase, follow this order of truth:
 
-1. `README.md`
-2. focused product/engineering documents in `docs/`
+1. `README.md` for top-level product direction
+2. focused product/engineering documents in `docs/` for the exact rules of the area you are touching
 3. this file
 4. approved implementation plans/tasks
 5. code
@@ -62,6 +62,7 @@ Important rules:
 - product behavior should not be silently reinvented inside the code
 - if code and docs disagree, fix the disagreement deliberately
 - do not assume current code is automatically the product truth
+- if a focused doc goes deeper than `README.md`, the focused doc wins for that area
 
 ### Read only the docs you need
 Do **not** read every doc by default.
@@ -71,7 +72,7 @@ Use this routing guide to stay focused and avoid context bloat.
 Read:
 - `README.md`
 - this file
-- `docs/engineering-standards.md` if it exists
+- `docs/engineering-standards.md`
 
 #### If the task involves puzzle rules, solve/fail logic, hints, attempts, or case completion
 Also read:
@@ -81,11 +82,13 @@ Also read:
 #### If the task involves startup, onboarding, resume, pause, results, rollover, or state transitions
 Also read:
 - `docs/modes-and-session-state.md`
+- `docs/save-sync-and-account-rules.md` if the change also touches canonical result or rollover authority
 
 #### If the task involves screen layout, tap flow, input placement, navigation, or UI behavior
 Also read:
 - `docs/screen-behavior-spec.md`
 - `docs/accessibility-localization-and-device-support.md`
+- `docs/audio-visual-style-guide.md` if visuals/motion/sound/haptics are involved
 
 #### If the task involves word acceptance, answer policy, phrase support, obscurity limits, or edge-case vocabulary
 Also read:
@@ -94,6 +97,7 @@ Also read:
 #### If the task involves local saves, cloud sync, guest/account flow, restore, offline behavior, or completion integrity
 Also read:
 - `docs/save-sync-and-account-rules.md`
+- `docs/technical-architecture.md`
 
 #### If the task involves daily publishing, weekly cases, archive packs, review flow, or event scheduling
 Also read:
@@ -103,14 +107,14 @@ Also read:
 Also read:
 - `docs/progression-economy-and-monetization.md`
 
-#### If the task involves sound, haptics, visual tone, icon style, typography, or animation behavior
+#### If the task involves sound, haptics, visual tone, icon style, typography, spacing, or animation behavior
 Also read:
 - `docs/audio-visual-style-guide.md`
 - `docs/accessibility-localization-and-device-support.md`
 
 #### If the task involves analytics, telemetry, experiments, or funnel measurement
 Also read:
-- `docs/analytics-and-experimentation.md` (authoritative taxonomy, payload contract, privacy boundaries, and experiment guardrails)
+- `docs/analytics-and-experimentation.md`
 
 #### If the task involves module boundaries, persistence, content loading, backend scope, or app architecture
 Also read:
@@ -208,37 +212,40 @@ These rules should not drift unless the docs are intentionally updated.
 ## 5. Non-Negotiable Technical Invariants
 
 ### Stack direction
-- Mobile client: TypeScript
-- Mobile app direction: React Native with Expo
-- Shared logic: TypeScript packages where useful
-- Backend/API later where needed: TypeScript
-- Background/scheduled work later where needed: TypeScript worker
+- mobile client: TypeScript
+- mobile app direction: React Native with Expo
+- routing direction: Expo Router
+- app/session/UI state direction: Zustand
+- important local persistence direction: SQLite via Expo SQLite
+- shared logic: TypeScript packages where useful
+- backend/API later where needed: TypeScript
+- background/scheduled work later where needed: TypeScript worker
 
 ### Architecture rules
-- Core puzzle truth should not be duplicated carelessly across UI, backend, and tools.
-- Validation rules should be centralized where practical.
-- Content data should be structured and typed, not hardcoded into random screens.
-- UI code should render and orchestrate interaction; it should not become the hidden source of game truth.
-- The app should not depend on a backend for every moment of core solo play unless docs intentionally require it.
-- Local persistence and reliable resume are first-class responsibilities, not late polish.
+- core puzzle truth should not be duplicated carelessly across UI, backend, and tools
+- validation rules should be centralized where practical
+- content data should be structured and typed, not hardcoded into random screens
+- UI code should render and orchestrate interaction; it should not become the hidden source of game truth
+- the app should not depend on a backend for every moment of core solo play unless docs intentionally require it
+- local persistence and reliable resume are first-class responsibilities, not late polish
 
 ### Product/tech boundary rules
-- Do not hardcode live daily answers into presentation components.
-- Do not bury solve/fail semantics inside ad, analytics, or UI helper code.
-- Do not let cloud or social features silently redefine local puzzle behavior.
-- Do not create content formats that only one fragile screen knows how to read.
+- do not hardcode live daily answers into presentation components
+- do not bury solve/fail semantics inside ad, analytics, or UI helper code
+- do not let cloud or social features silently redefine local puzzle behavior
+- do not create content formats that only one fragile screen knows how to read
 
 ### Dependency rules
-- Prefer fewer dependencies.
-- Do not add a package unless it clearly saves real work or improves reliability.
-- Avoid flashy or heavy libraries for small problems.
-- WordCase does not need engine-like complexity for ordinary UI and puzzle behavior.
+- prefer fewer dependencies
+- do not add a package unless it clearly saves real work or improves reliability
+- avoid flashy or heavy libraries for small problems
+- WordCase does not need engine-like complexity for ordinary UI and puzzle behavior
 
 ### Data and config rules
-- Keep configuration and secrets out of source files.
-- Keep case/content identifiers stable once introduced.
-- Use boring, obvious file and folder names.
-- Avoid schema or content-format churn without good reason.
+- keep configuration and secrets out of source files
+- keep case/content identifiers stable once introduced
+- use boring, obvious file and folder names
+- avoid schema or content-format churn without good reason
 
 ---
 
@@ -273,20 +280,20 @@ If some of these folders do not exist yet:
 ## 7. Working Rules for Agents
 
 ### Scope discipline
-- Work on the smallest safe slice of the requested task.
-- Do not jump ahead to later milestones unless explicitly told.
-- Do not sneak in account, social, backend, economy, or content-tooling complexity when the task does not need it.
-- Do not expose unfinished modes or fake feature buttons as if they work.
-- Do not widen a gameplay task into a branding task or a branding task into a backend task.
+- work on the smallest safe slice of the requested task
+- do not jump ahead to later milestones unless explicitly told
+- do not sneak in account, social, backend, economy, or content-tooling complexity when the task does not need it
+- do not expose unfinished modes or fake feature buttons as if they work
+- do not widen a gameplay task into a branding task or a branding task into a backend task
 
 ### Coding style
-- Slower but cleaner.
-- Boring is good.
-- Clear is better than clever.
-- Consistency beats personal style.
-- Prefer small focused files.
-- Avoid giant god-files and tangled helpers.
-- Avoid magic behavior hidden behind clever abstractions.
+- slower but cleaner
+- boring is good
+- clear is better than clever
+- consistency beats personal style
+- prefer small focused files
+- avoid giant god-files and tangled helpers
+- avoid magic behavior hidden behind clever abstractions
 
 ### Naming
 Use descriptive names like:
@@ -315,31 +322,31 @@ Comment:
 Do not comment obvious code line by line.
 
 ### UI and interaction discipline
-- Prefer readability and obvious interaction over novelty.
-- Avoid tiny tap targets and clutter-heavy layouts.
-- Do not add modal spam.
-- Keep the main case screen focused.
-- When in doubt, make the repeated daily flow faster and clearer.
+- prefer readability and obvious interaction over novelty
+- avoid tiny tap targets and clutter-heavy layouts
+- do not add modal spam
+- keep the main case screen focused
+- when in doubt, make the repeated daily flow faster and clearer
 
 ### Audio/visual discipline
-- If a task touches visuals or sound, follow the style guide if it exists.
-- Do not generate or implement wildly inconsistent styles across surfaces.
-- In-app readability matters more than decorative detail.
-- A polished quiet interaction is better than a loud flashy one.
+- if a task touches visuals or sound, follow the style guide
+- do not generate or implement wildly inconsistent styles across surfaces
+- in-app readability matters more than decorative detail
+- a polished quiet interaction is better than a loud flashy one
 
 ### Analytics discipline
-- Instrument intentionally.
-- Do not spray events everywhere “just in case.”
-- Analytics should help answer product questions, not create noise.
-- Be privacy-conscious and avoid needless payload bloat.
-- Do not let analytics logic become entangled with core game truth.
+- instrument intentionally
+- do not spray events everywhere “just in case”
+- analytics should help answer product questions, not create noise
+- be privacy-conscious and avoid needless payload bloat
+- do not let analytics logic become entangled with core game truth
 
 ### Content/data discipline
-- Keep puzzle content separate from UI rendering concerns.
-- Prefer typed content structures.
-- Do not scatter case logic across many unrelated files.
-- Do not encode answer-policy assumptions in multiple places.
-- If content behavior is unclear, push toward a more explicit schema rather than more special cases.
+- keep puzzle content separate from UI rendering concerns
+- prefer typed content structures
+- do not scatter case logic across many unrelated files
+- do not encode answer-policy assumptions in multiple places
+- if content behavior is unclear, push toward a more explicit schema rather than more special cases
 
 ---
 
@@ -361,7 +368,7 @@ If you introduce a new important command, document it.
 ## 9. Milestone Discipline
 
 Before implementing anything beyond trivial tooling, check:
-- `docs/milestone-implementation-plan.md` if it exists
+- `docs/milestone-implementation-plan.md`
 
 Rules:
 - do not build content-operations complexity before the core puzzle is trustworthy
@@ -380,13 +387,13 @@ If unsure whether something belongs in the current phase, choose the more conser
 WordCase depends heavily on trust, so treat content and puzzle behavior as high-risk product truth.
 
 ### Rules
-- Published cases should have stable identifiers.
-- Solve/fail behavior must be explicit and testable.
-- Attempt limits, hint rules, and feedback rules must not drift silently.
-- Dictionary and validation policy should remain centralized and documented.
-- Share outputs must not reveal spoilers or sensitive unrevealed state.
-- If generation tools are used for content assistance, their outputs must still be reviewed before canonical use.
-- Archive behavior should preserve the meaning of past cases.
+- published cases should have stable identifiers
+- solve/fail behavior must be explicit and testable
+- attempt limits, hint rules, and feedback rules must not drift silently
+- dictionary and validation policy should remain centralized and documented
+- share outputs must not reveal spoilers or sensitive unrevealed state
+- if generation tools are used for content assistance, their outputs must still be reviewed before canonical use
+- archive behavior should preserve the meaning of past cases
 
 ### Practical principle
 A word game can become untrustworthy much faster than it becomes impressive.
@@ -398,11 +405,11 @@ Protect trust first.
 
 Before making changes:
 
-1. Summarize the task in a few bullets.
-2. List the files and docs you actually need.
-3. State any assumptions you are making.
-4. Keep the planned change as small as possible.
-5. If the task is large, choose a smaller first pass instead of a giant hero implementation.
+1. summarize the task in a few bullets
+2. list the files and docs you actually need
+3. state any assumptions you are making
+4. keep the planned change as small as possible
+5. if the task is large, choose a smaller first pass instead of a giant hero implementation
 
 If a referenced doc does not exist yet:
 - do not invent a giant replacement framework
@@ -415,13 +422,13 @@ If a referenced doc does not exist yet:
 
 Before finishing:
 
-1. Run the relevant checks for the code you touched.
-2. Test the specific flow you changed.
-3. Fix obvious issues instead of leaving them behind.
-4. Verify docs and scripts still match reality.
-5. Make sure you did not accidentally introduce unrelated complexity.
-6. Make sure the result still matches WordCase's product direction.
-7. If you changed puzzle behavior, validation behavior, session state, or monetization behavior, call that out explicitly.
+1. run the relevant checks for the code you touched
+2. test the specific flow you changed
+3. fix obvious issues instead of leaving them behind
+4. verify docs and scripts still match reality
+5. make sure you did not accidentally introduce unrelated complexity
+6. make sure the result still matches WordCase's product direction
+7. if you changed puzzle behavior, validation behavior, session state, or monetization behavior, call that out explicitly
 
 Your final report should include:
 - what changed
@@ -435,7 +442,6 @@ Your final report should include:
 ## 13. Forbidden Moves
 
 Do not:
-
 - invent undocumented puzzle rules
 - hide validation truth inside UI-only code
 - hardcode live answers into presentation components
@@ -458,7 +464,6 @@ Do not:
 ## 14. If You Are Unsure
 
 If WordCase docs do not fully answer something:
-
 - choose the most conservative, maintainable option
 - protect fairness and readability first
 - preserve reliable save/resume behavior
