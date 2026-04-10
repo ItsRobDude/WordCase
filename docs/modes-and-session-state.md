@@ -523,15 +523,22 @@ Behavior:
 Resume behavior is one of the most important trust behaviors in the app.
 
 ### 14.1 Resume target
-When the player returns, the app should route them to the most relevant unfinished or newly completed state based on session priority.
+When the player returns, routing must follow a strict three-step decision tree:
 
-Priority order for launch and resume:
-1. unfinished starter case
-2. unacknowledged result screen
-3. unresolved Protected Carryover Daily
-4. unresolved current-day Daily Case
-5. Home
-6. in-progress archive/practice only when resumed intentionally from inside archive/practice
+1. **Primary target state**
+   - unfinished starter case
+   - unacknowledged result screen
+   - unresolved Protected Carryover Daily
+   - unresolved current-day Daily Case
+   - Home
+   - in-progress archive/practice only when resumed intentionally from inside archive/practice
+2. **Fallback when target data is unavailable or corrupt**
+   - try the next valid state in the same priority list above
+   - skip states that cannot be restored honestly (missing case package, unreadable save block, invalid state shape)
+3. **Final safe fallback screen**
+   - Home, with an explicit unobtrusive notice that progress could not be fully restored if any higher-priority state failed restoration
+
+The app must never invent missing session data to satisfy a higher-priority route.
 
 ### 14.2 Resume from active daily
 If a Daily Case is in progress:
@@ -559,6 +566,29 @@ If Weekly Resolution is ready while a canonical daily is unresolved:
 - the unresolved daily remains the default resume target
 - Weekly Resolution may be shown on Home secondarily
 - Weekly Resolution must not auto-open on launch or resume
+
+### 14.7 Concrete routing examples
+Use the same decision-tree contract for cold start and warm resume.
+
+1. **Cold start example**
+   - Primary target state: unacknowledged Daily result for `dailyCaseId=2026-04-09`.
+   - Fallback when target data is unavailable/corrupt: if result payload is unreadable, route to unresolved Protected Carryover Daily for `dailyCaseId=2026-04-09` when that session is valid.
+   - Final safe fallback screen: Home if neither state can be restored.
+
+2. **Warm resume example**
+   - Primary target state: unresolved current-day Daily Case that was open before background.
+   - Fallback when target data is unavailable/corrupt: if active-session block is invalid, route to Home with today marked as unopened rather than guessing prior attempts.
+   - Final safe fallback screen: Home.
+
+3. **Post-result reopen example**
+   - Primary target state: same result screen (solve/fail) when not yet acknowledged on this device.
+   - Fallback when target data is unavailable/corrupt: route to concluded Home state with **View Results** entry if canonical result exists but local result UI payload is damaged.
+   - Final safe fallback screen: Home.
+
+4. **Rollover with Protected Carryover example**
+   - Primary target state: unresolved Protected Carryover Daily from the prior day after rollover.
+   - Fallback when target data is unavailable/corrupt: if carryover session is unreadable but canonical carryover identity exists, route to that carryover case intro and preserve canonical status (do not auto-abandon).
+   - Final safe fallback screen: Home with carryover-blocked status and explicit entry to retry loading the carryover case.
 
 ---
 
