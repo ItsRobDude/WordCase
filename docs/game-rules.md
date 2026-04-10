@@ -495,6 +495,25 @@ In v1, Weekly Resolution differs in presentation and payoff, not deduction gramm
 ### Weekly Resolution unlock rule
 The Weekly Resolution becomes available when the player has earned at least **four** evidence fragments during that weekly cycle.
 
+### Weekly unlock evaluation algorithm
+Unlock evaluation for a given `weekId` must be deterministic and run at these exact times:
+- on every canonical evidence mutation for that `weekId` (for example when a daily canonical result changes from unresolved to solved and grants evidence)
+- at week-close finalization for that same `weekId`
+
+Normative algorithm for `weeklyResolutionUnlocked`:
+1. Collect canonical solved daily records that belong to `weekId`.
+2. Compute `evidenceCount` from those canonical solved records using the Evidence rule in this section.
+3. Set `weeklyResolutionUnlocked = (evidenceCount >= unlockThreshold)` where v1 `unlockThreshold = 4`.
+4. If multiple candidate writes for the same unlock transition are observed, use server-authoritative canonical timestamps as tie-break authority (`recordedAtServer` first; device-captured timestamps are diagnostic only).
+
+Delayed-sync rule:
+- if qualifying evidence for a historical `weekId` arrives after that week's UTC end (for example a Protected Carryover solve syncing late), recompute unlock using the same algorithm for that historical `weekId`
+- the historical weekly outcome must then be recomputed deterministically using Canonical weekly history state triggers in this section
+
+Retroactive-lock rule:
+- once a `weekId` reaches `weeklyResolutionUnlocked=true` under canonical evaluation, it must never be retroactively set back to `false`
+- late-arriving stronger canonical records may upgrade weekly history state (for example `incomplete` to `unresolved`, or `unresolved` to `resolved`), but must not relock a previously unlocked week
+
 ### Weekly Resolution availability rule
 Once unlocked, the Weekly Resolution remains available until that weekly cycle rolls over.
 
@@ -628,6 +647,16 @@ The first-time player experience should create confidence quickly.
 
 ### Starter case rule
 On first launch, WordCase should provide a short guided starter case before pushing the player into the live daily structure.
+
+### Starter Case Rules (Normative)
+To prevent interpretation drift, the Starter Case MUST follow these explicit rules unless this section is intentionally revised:
+
+- **Answer length:** The Starter Case answer MUST be exactly five letters.
+- **Attempt count:** The Starter Case MUST allow exactly six valid attempts; invalid guesses MUST NOT consume attempts.
+- **Hints:** The Starter Case MUST include exactly one honest hint, and that hint MUST stay locked until after the player's first valid guess. The hint SHOULD be visibly discoverable from case start, with its locked state clearly communicated.
+- **Validation parity:** Starter Case guess validation MUST match the Standard Daily Case validation policy exactly. Any exception MUST be explicitly enumerated here; currently, no exceptions are allowed.
+- **Result authority:** Starter Case outcomes MUST be treated as tutorial-only results and MUST NOT be recorded as canonical Daily Case outcomes.
+- **Progress contribution:** Completing the Starter Case MUST NOT grant Weekly Caseboard evidence and MUST NOT increase, repair, or break Daily Solve Streak or canonical Daily history.
 
 ### First-win rule
 The starter experience should aim to produce a fast first win.

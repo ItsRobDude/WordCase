@@ -109,6 +109,10 @@ Rules:
 - `failed_run` is non-terminal and retryable within the same weekly window.
 - `solved` and `expired_unresolved` are terminal for a given `week_id`.
 - Carryover daily completion after weekly rollover contributes evidence to the daily record's original `week_id`, not the newly active week.
+- Weekly unlock eligibility evaluation (`locked` -> `eligible`) is deterministic and must execute on each canonical evidence mutation and again at week-close finalization for the same `week_id`.
+- Conflicting unlock/evidence writes for the same `week_id` use server-authoritative canonical ordering (`recordedAtServer`) as tie-break authority; device-captured timestamps are non-authoritative hints.
+- Late-arriving evidence synced after week close must trigger recomputation for that historical `week_id` only and must not be reattributed to the active week.
+- Once a `week_id` reaches unlocked/eligible status, reconciliation must never retroactively transition it back to `locked`.
 
 ---
 

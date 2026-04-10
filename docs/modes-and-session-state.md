@@ -186,8 +186,8 @@ Rules:
 - the starter case should autosave like any other core case
 - backgrounding should not discard it
 - the starter case should remain resumable until completed or intentionally restarted
-- the starter case strictly adheres to the basic rules of the game (5-letter word, 6-attempt limit)
-- the starter case should be simpler and more guided than the real daily by using extremely common vocabulary, a very strong clue, and a guided UI tutorial overlay
+- the starter case should be simpler and more guided than the real daily
+- starter answer length, attempts, hint timing, validation parity, and canonical-progress treatment MUST follow `docs/game-rules.md` section **“Starter Case Rules (Normative)”**
 
 ### 6.3 Starter case completion
 When the starter case is solved:
@@ -268,7 +268,6 @@ The player has started interacting meaningfully with today’s case.
 Meaningful interaction may include:
 - making a valid guess
 - consuming a hint
-- revealing clue state if supported
 - otherwise mutating puzzle state
 
 Behavior:

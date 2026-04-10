@@ -127,6 +127,23 @@ Do not sync streak as top-level mutable truth.
 Weekly evidence is derived from canonical solved daily results and weekly resolution state.
 Do not sync weekly evidence as top-level mutable truth.
 
+Weekly unlock evaluation contract (per `weekId`):
+- evaluate unlock on every canonical evidence mutation affecting that `weekId`
+- evaluate unlock again at week-close finalization for that `weekId`
+- compute `weeklyResolutionUnlocked = (evidenceCount >= unlockThreshold)` from canonical solved daily records only (v1 threshold is 4)
+
+Timestamp authority and tie-breaks:
+- server-authoritative canonical write timestamp (`recordedAtServer`) is the ordering authority for conflicting writes
+- device-captured timestamps (for example `actionAtDevice`) are diagnostics/order hints only and must not overrule server ordering
+
+Delayed sync after week close:
+- if evidence for a historical `weekId` arrives after that week has closed (for example delayed sync from offline carryover resolution), recompute unlock and weekly history state for that same historical `weekId`
+- do not reattribute that evidence to the newly active week
+
+Non-relock rule:
+- once `weeklyResolutionUnlocked=true` is reached for a `weekId`, later reconciliation must not set it back to `false`
+- reconciliation may only preserve or upgrade the historical weekly outcome state (`incomplete` -> `unresolved` -> `resolved`), never downgrade solely because of ordering noise
+
 Canonical weekly history outcome must resolve to exactly one state per `weekId` using the same names as game/session docs:
 - `resolved` if any Weekly Resolution run solved before week end
 - `unresolved` if Weekly Resolution unlocked but no run solved before week end
