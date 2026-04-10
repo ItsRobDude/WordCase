@@ -427,6 +427,41 @@ Requirements:
 - disabled or inactive states should be visually clear
 - input should feel responsive
 
+### 8.6.1 Daily Case input behavior with fixed hint positions (normative)
+When a hint reveals a fixed letter position, input handling must follow these mandatory rules:
+
+- fixed hint positions are locked and cannot be edited directly in the active row
+- fixed hint letters are auto-populated in every future active guess row
+- submit validation must reject any guess payload that attempts to override a fixed hint letter, even if that payload is injected through non-standard input paths
+- this rejection must not consume an attempt and must not mutate board history
+
+Player-facing feedback for override attempts must be exact and immediate:
+
+- keep focus on the active input row
+- show inline field-state emphasis on the conflicting fixed cell(s)
+- show a non-blocking toast with the message: **Hint-locked letter cannot be changed.**
+- preserve all other editable letters in the row so the player can correct and resubmit quickly
+
+### 8.6.2 Example turn: before and after hint use
+Example answer (hidden from player): **CRANE**
+
+Before hint use:
+
+- Row 1 submitted: `SLATE` → feedback shown
+- Row 2 active input: `_ _ _ _ _`
+- No fixed hint cells
+
+Hint used (deterministic left-to-right first unrevealed correct position):
+
+- Position 1 is revealed and fixed as `C`
+
+After hint use:
+
+- Row 1 remains unchanged with original feedback
+- Row 2 active input becomes: `C _ _ _ _` with cell 1 locked
+- Row 3+ (future rows) initialize as `C _ _ _ _` with cell 1 locked
+- If player attempts `B` in cell 1 via any input path, submission is rejected with **Hint-locked letter cannot be changed.** and no attempt is consumed
+
 ### 8.7 Hint or assist access
 Hint access must stay secondary.
 It should not dominate the main solving area.
