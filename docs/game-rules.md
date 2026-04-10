@@ -260,9 +260,11 @@ A case is failed when the player uses all allowed valid attempts without submitt
 ### Fail result behavior
 On fail:
 - the case is recorded as failed
-- the correct answer may be revealed
+- the correct answer is always revealed on the fail result screen
 - the player should be able to understand the final outcome
 - the failed case does not grant the normal weekly evidence reward
+
+A game mode may override the answer reveal behavior only if its mode spec explicitly states a different reveal rule.
 
 ### Canonical lock rule
 Once an active Daily Case is solved or failed:

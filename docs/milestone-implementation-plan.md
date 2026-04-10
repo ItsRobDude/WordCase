@@ -102,20 +102,20 @@ WordCase should be built in this order:
 The daily ritual is the product.
 Everything else should support that.
 
-### 3.1 Weekly Surface Gating Matrix (Milestone Source of Truth)
+### 3.1 Surface Availability Matrix (Milestone Source of Truth)
 
-To prevent UI and routing drift, weekly exposure must follow this matrix exactly until this table is intentionally updated.
+To prevent UI and routing drift, exposure for major surfaces must follow this exact matrix until intentionally updated.
+“Unavailable” means completely unavailable: no player-facing nav entry, no route, no deep-link support, no reward hooks, no save-data dependency, and no “coming soon” placeholder shells.
 
-| Milestone | Weekly card appears on Home? | Weekly screen route accessible? | Weekly progress visuals shown anywhere player-facing? | Must remain hidden |
-| --- | --- | --- | --- | --- |
-| Milestone 0 — Project Foundation | No | No | No | Any player-facing Weekly card, Weekly route, Weekly board visuals, or fake “coming soon” weekly shell. |
-| Milestone 1 — Core Vertical Slice | No | No | No | Any player-facing Weekly entry point (Home card, deep link, result CTA, nav route, or progress visual). Internal/dev stubs may exist but must stay outside normal player flow. |
-| Milestone 2 — Real Daily Case System | No | No | No | Any player-facing Weekly board or progress treatment. Daily-system work must not expose Weekly as a partially wired shell. |
-| Milestone 3 — Weekly Caseboard and Weekly Resolution | Yes | Yes | Yes | Fake or misleading weekly states (for example, a progress visual that does not map to real evidence state). |
-| Milestone 4 — Account Linking and Cross-Device Sync | Yes | Yes | Yes | Any alternate sync-specific weekly UI that diverges from canonical weekly truth. |
-| Milestone 5 — Social / Retention Layer and Content Ops Hardening | Yes | Yes | Yes | Any social/retention treatment that spoils unresolved weekly content or misrepresents weekly progress. |
-| Milestone 6 — Monetization and Content Expansion | Yes | Yes | Yes | Any monetization interruption or paywall behavior that blocks fair weekly state visibility. |
-| Milestone 7 — Beta Hardening and Release Readiness | Yes | Yes | Yes | Any temporary/debug weekly UI paths that bypass normal weekly state/routing rules. |
+| Milestone | Weekly Caseboard | Archive | Player-facing analytics emission | Dev/Internal stubs allowed? |
+| :--- | :--- | :--- | :--- | :--- |
+| **Milestone 0** (Foundation) | **Unavailable**. No UI, route, or deep-link. | **Unavailable**. No UI, route, or deep-link. | Minimal or Disabled | Yes, completely hidden from player flow |
+| **Milestone 1** (Core Slice) | **Unavailable**. No UI, route, or deep-link. | **Unavailable** unless explicit unlock criteria are met (≥2 cases). | Core loop events only | Yes, completely hidden from player flow |
+| **Milestone 2** (Daily System) | **Unavailable**. No UI, route, or deep-link. | **Unavailable** unless explicit unlock criteria are met (≥2 cases). | Daily events enabled | Yes, completely hidden from player flow |
+| **Milestone 3** (Weekly Sys) | **Available**. Nav, route, analytics active. | **Available** based on content threshold. | Weekly events enabled | No fake placeholder surfaces |
+| **Milestone 4+** (Live) | **Available**. Full integration. | **Available**. Full integration. | Full schema | No fake placeholder surfaces |
+
+In Milestones 0–2, Weekly and Archive are **unavailable**, not merely hidden visually. If referenced indirectly, the app must resolve to the current primary surface instead of a dead route.
 
 ---
 

@@ -88,6 +88,7 @@ Validation execution contract:
 | puzzle rules, solve/fail logic, hints, attempts, or case completion | `docs/game-rules.md`, `docs/dictionary-and-validation-rules.md` |
 | startup, onboarding, resume, pause, results, rollover, or state transitions | `docs/modes-and-session-state.md`; `docs/save-sync-and-account-rules.md` if canonical result/rollover authority is touched |
 | screen layout, tap flow, input placement, navigation, or UI behavior | `docs/screen-behavior-spec.md`, `docs/accessibility-localization-and-device-support.md`; add `docs/audio-visual-style-guide.md` if visuals/motion/sound/haptics are involved |
+| player-facing semantic text, exact UI copy, or voice guidelines | `docs/copy-locks-and-voice-guide.md` |
 | word acceptance, answer policy, phrase support, obscurity limits, or edge-case vocabulary | `docs/dictionary-and-validation-rules.md` |
 | local saves, cloud sync, guest/account flow, restore, offline behavior, or completion integrity | `docs/save-sync-and-account-rules.md`, `docs/technical-architecture.md` |
 | daily publishing, weekly cases, archive packs, review flow, or event scheduling | `docs/content-pipeline-and-liveops.md` |
