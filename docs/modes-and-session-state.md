@@ -155,7 +155,7 @@ Default priority:
 Important rule:
 - archive/practice should not automatically steal priority from an in-progress Daily Case
 - optional side content should never bury the core daily ritual
-- Weekly Resolution must not auto-open on app launch
+- ready-and-unviewed Weekly Resolution is a Home CTA state, not an app-open routing target
 - Home is the default calm routing surface once nothing higher-priority needs preservation
 
 ---
@@ -526,12 +526,13 @@ Resume behavior is one of the most important trust behaviors in the app.
 When the player returns, routing must follow a strict three-step decision tree:
 
 1. **Primary target state**
-   - unfinished starter case
-   - unacknowledged result screen
-   - unresolved Protected Carryover Daily
-   - unresolved current-day Daily Case
-   - Home
-   - in-progress archive/practice only when resumed intentionally from inside archive/practice
+   - choose the first valid state in this exact order:
+     1. unfinished starter case
+     2. unacknowledged result screen
+     3. unresolved Protected Carryover Daily
+     4. unresolved current-day Daily Case
+     5. Home
+     6. in-progress archive/practice only when resumed intentionally from inside archive/practice
 2. **Fallback when target data is unavailable or corrupt**
    - try the next valid state in the same priority list above
    - skip states that cannot be restored honestly (missing case package, unreadable save block, invalid state shape)
@@ -539,6 +540,7 @@ When the player returns, routing must follow a strict three-step decision tree:
    - Home, with an explicit unobtrusive notice that progress could not be fully restored if any higher-priority state failed restoration
 
 The app must never invent missing session data to satisfy a higher-priority route.
+Ready-and-unviewed Weekly Resolution must be presented from Home as a CTA after unresolved higher-priority states are cleared.
 
 ### 14.2 Resume from active daily
 If a Daily Case is in progress:
@@ -583,12 +585,7 @@ Use the same decision-tree contract for cold start and warm resume.
 3. **Post-result reopen example**
    - Primary target state: same result screen (solve/fail) when not yet acknowledged on this device.
    - Fallback when target data is unavailable/corrupt: route to concluded Home state with **View Results** entry if canonical result exists but local result UI payload is damaged.
-   - Final safe fallback screen: Home.
-
-4. **Rollover with Protected Carryover example**
-   - Primary target state: unresolved Protected Carryover Daily from the prior day after rollover.
-   - Fallback when target data is unavailable/corrupt: if carryover session is unreadable but canonical carryover identity exists, route to that carryover case intro and preserve canonical status (do not auto-abandon).
-   - Final safe fallback screen: Home with carryover-blocked status and explicit entry to retry loading the carryover case.
+   - Final safe fallback screen: Home, where **Resolve Weekly Caseboard** may be shown as a CTA when weekly is ready-and-unviewed.
 
 ---
 
