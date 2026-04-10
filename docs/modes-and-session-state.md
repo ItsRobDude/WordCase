@@ -268,7 +268,6 @@ The player has started interacting meaningfully with today’s case.
 Meaningful interaction may include:
 - making a valid guess
 - consuming a hint
-- revealing clue state if supported
 - otherwise mutating puzzle state
 
 Behavior:
