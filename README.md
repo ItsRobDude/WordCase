@@ -29,9 +29,7 @@ If you are contributing to WordCase, use this quick path:
 Current repo phase note:
 _Last reviewed: 2026-04-10_
 
-- command names in `docs/engineering-standards.md` section 5.1 are normative targets
-- those commands become mandatory once workspace scaffolding exists
-- during docs-only phase work, contributors should run document-consistency checks only (if any are currently available)
+See `docs/engineering-standards.md` section 5.1 for the exact breakdown of normative requirements versus current enforcement state.
 
 ---
 

@@ -155,10 +155,19 @@ The repo/workspace must expose these command names:
 - `build`
 - `check` (aggregated validation: `lint` + `typecheck` + `test` + `build`)
 
-Current repo phase note:
-- these command names are normative targets for the workspace contract
-- they become mandatory once the workspace scaffolding exists
-- during docs-only phase work, contributors should run document-consistency checks only (if any are currently available)
+**Requirement vs Enforcement State:**
+A requirement is normative as soon as it appears in this document. Lack of automation does not make the requirement optional; it only changes whether enforcement is currently manual or automated.
+
+| Requirement | Canonical command | Required since milestone | Current enforcement | Blocking now |
+| :--- | :--- | :--- | :--- | :--- |
+| Code Formatting | `pnpm format` | M0 | Manual / Unavailable | No |
+| Linting | `pnpm lint` | M0 | Manual / Unavailable | No |
+| Typechecking | `pnpm typecheck` | M0 | Manual / Unavailable | No |
+| Testing | `pnpm test` | M0 | Manual / Unavailable | No |
+| Building | `pnpm build` | M0 | Manual / Unavailable | No |
+| All checks | `pnpm check` | M0 | Manual / Unavailable | No |
+
+*(Note: During the docs-only phase, enforcement is primarily manual. Automated scripts will become blocking CI gates once workspace scaffolding is introduced.)*
 
 ### Repo-wide usage (default before every commit)
 Run from repo root:

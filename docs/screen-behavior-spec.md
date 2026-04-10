@@ -30,16 +30,18 @@ This document defines:
 - loading, error, and empty-state behavior
 - which screens are active in the current vertical slice versus defined for later
 
+**Normative vs Flexible Scope**
+
+This screen spec is normative for interaction behavior, state changes, feedback behavior, transition order, and availability rules.
+It is non-normative for cosmetic animation style, decorative presentation, and final art treatment, which remain flexible unless locked elsewhere.
+
 This document does **not** define:
 
-- exact dictionary rules
-- exact hint economy
-- exact progression math
-- exact analytics schema
-- exact content pipeline behavior
-- final visual art direction details
-
-Those belong in their own focused docs.
+- exact dictionary rules -> refer to `docs/dictionary-and-validation-rules.md`
+- exact hint economy / progression math -> refer to `docs/progression-economy-and-monetization.md`
+- exact analytics schema -> refer to `docs/analytics-and-experimentation.md`
+- exact content pipeline behavior -> refer to `docs/content-pipeline-and-liveops.md`
+- final visual art direction / motion / sound / haptics -> refer to `docs/audio-visual-style-guide.md`
 
 ---
 
@@ -92,6 +94,11 @@ If a screen, mode, or feature is not ready, it should not be exposed as a fake b
 ### 3.6 Sound and haptics are additive
 All important UI meaning must remain clear with sound off and haptics off.
 
+### 3.7 Semantic UI copy
+Any text that affects player understanding of rules, progress, rewards, failure, or availability is exact copy and must be implemented verbatim. Flavor copy may vary within the voice guide as long as semantic meaning is unchanged.
+
+For the exact semantic strings and voice guidelines, refer to `docs/copy-locks-and-voice-guide.md`.
+
 ---
 
 ## 4. Navigation Model
@@ -114,6 +121,8 @@ Archive visibility unlock criteria (Milestones 1 and 2):
 When this section and `docs/milestone-implementation-plan.md` differ on Milestone 0/1/2 Archive gating, **`docs/milestone-implementation-plan.md` is the source of truth and this spec must be updated to match it**.
 
 ### 4.2 Why Weekly Caseboard is not a main tab
+*Availability: Milestone 3+ (Hidden and completely unavailable in Milestones 0–2)*
+
 The Weekly Caseboard is a major surface, but not a bottom-tab destination in the first version.
 
 Reason:
@@ -129,7 +138,7 @@ The Weekly Caseboard should be opened from:
 - occasional progress prompts when relevant
 
 Weekly visibility and route availability are milestone-gated.
-Use `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”** as the controlling source for:
+Use `docs/milestone-implementation-plan.md` section **“Surface Availability Matrix (Milestone Source of Truth)”** as the controlling source for:
 - whether the Home weekly card appears
 - whether the Weekly screen route is accessible
 - whether weekly progress visuals are shown
@@ -327,7 +336,9 @@ It should change state based on progress.
 - do not reveal the answer on Home before result review
 
 ### 7.5 Weekly Caseboard card
-This card is only shown in milestones where the weekly Home card is enabled by `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”**.
+*Availability: Milestone 3+*
+
+This card is only shown in milestones where the weekly Home card is enabled by `docs/milestone-implementation-plan.md` section **“Surface Availability Matrix (Milestone Source of Truth)”**.
 
 This should appear directly below the Today card.
 
@@ -340,6 +351,8 @@ It should show:
 - tap target to open the full Weekly Caseboard screen
 
 ### 7.6 Archive or Practice card
+*Availability: Milestone 1+ (Only when unlock criteria are met)*
+
 This card remains secondary and uncluttered.
 It shows:
 
@@ -639,6 +652,7 @@ On another device that has synced a concluded daily, the app may show concluded 
 ---
 
 ## 11. Weekly Caseboard Screen
+*Availability: Milestone 3+*
 
 ### 11.1 Purpose
 This screen turns multiple daily solves into a larger payoff.
@@ -699,6 +713,7 @@ Exiting the Weekly Caseboard returns to Home.
 ---
 
 ## 12. Archive or Practice Screen
+*Availability: Milestone 1+ (Only when unlock criteria are met)*
 
 ### 12.1 Purpose
 Archive or Practice exists to support extra play without weakening the daily ritual.
