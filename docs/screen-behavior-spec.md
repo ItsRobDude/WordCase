@@ -122,6 +122,13 @@ The Weekly Caseboard should be opened from:
 - the Results screen after a solve or fail
 - occasional progress prompts when relevant
 
+Weekly visibility and route availability are milestone-gated.
+Use `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”** as the controlling source for:
+- whether the Home weekly card appears
+- whether the Weekly screen route is accessible
+- whether weekly progress visuals are shown
+- what weekly elements must remain hidden
+
 ### 4.3 Settings access
 Settings is not a bottom tab.
 Settings should be reached from:
@@ -293,6 +300,8 @@ It should change state based on progress.
 - do not reveal the answer on Home before result review
 
 ### 7.5 Weekly Caseboard card
+This card is only shown in milestones where the weekly Home card is enabled by `docs/milestone-implementation-plan.md` section **“Weekly Surface Gating Matrix (Milestone Source of Truth)”**.
+
 This should appear directly below the Today card.
 
 It should show:

@@ -93,6 +93,21 @@ WordCase should be built in this order:
 The daily ritual is the product.
 Everything else should support that.
 
+### 3.1 Weekly Surface Gating Matrix (Milestone Source of Truth)
+
+To prevent UI and routing drift, weekly exposure must follow this matrix exactly until this table is intentionally updated.
+
+| Milestone | Weekly card appears on Home? | Weekly screen route accessible? | Weekly progress visuals shown anywhere player-facing? | Must remain hidden |
+| --- | --- | --- | --- | --- |
+| Milestone 0 — Project Foundation | No | No | No | Any player-facing Weekly card, Weekly route, Weekly board visuals, or fake “coming soon” weekly shell. |
+| Milestone 1 — Core Vertical Slice | No | No | No | Any player-facing Weekly entry point (Home card, deep link, result CTA, nav route, or progress visual). Internal/dev stubs may exist but must stay outside normal player flow. |
+| Milestone 2 — Real Daily Case System | No | No | No | Any player-facing Weekly board or progress treatment. Daily-system work must not expose Weekly as a partially wired shell. |
+| Milestone 3 — Weekly Caseboard and Weekly Resolution | Yes | Yes | Yes | Fake or misleading weekly states (for example, a progress visual that does not map to real evidence state). |
+| Milestone 4 — Account Linking and Cross-Device Sync | Yes | Yes | Yes | Any alternate sync-specific weekly UI that diverges from canonical weekly truth. |
+| Milestone 5 — Social / Retention Layer and Content Ops Hardening | Yes | Yes | Yes | Any social/retention treatment that spoils unresolved weekly content or misrepresents weekly progress. |
+| Milestone 6 — Monetization and Content Expansion | Yes | Yes | Yes | Any monetization interruption or paywall behavior that blocks fair weekly state visibility. |
+| Milestone 7 — Beta Hardening and Release Readiness | Yes | Yes | Yes | Any temporary/debug weekly UI paths that bypass normal weekly state/routing rules. |
+
 ---
 
 ## 4. What Should Not Be Built Early
