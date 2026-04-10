@@ -36,6 +36,7 @@ WordCase is not the place for:
 When coding WordCase, contributors should follow this order of truth:
 
 1. WordCase product documents in `docs/`
+   - when implementation shape details are needed, use `docs/implementation-contracts.md` as the stable TypeScript-facing contract reference
 2. WordCase engineering standards in this document
 3. approved milestone/build-order documents
 4. code
