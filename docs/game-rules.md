@@ -492,6 +492,25 @@ In v1, Weekly Resolution differs in presentation and payoff, not deduction gramm
 ### Weekly Resolution unlock rule
 The Weekly Resolution becomes available when the player has earned at least **four** evidence fragments during that weekly cycle.
 
+### Weekly unlock evaluation algorithm
+Unlock evaluation for a given `weekId` must be deterministic and run at these exact times:
+- on every canonical evidence mutation for that `weekId` (for example when a daily canonical result changes from unresolved to solved and grants evidence)
+- at week-close finalization for that same `weekId`
+
+Normative algorithm for `weeklyResolutionUnlocked`:
+1. Collect canonical solved daily records that belong to `weekId`.
+2. Compute `evidenceCount` from those canonical solved records using the Evidence rule in this section.
+3. Set `weeklyResolutionUnlocked = (evidenceCount >= unlockThreshold)` where v1 `unlockThreshold = 4`.
+4. If multiple candidate writes for the same unlock transition are observed, use server-authoritative canonical timestamps as tie-break authority (`recordedAtServer` first; device-captured timestamps are diagnostic only).
+
+Delayed-sync rule:
+- if qualifying evidence for a historical `weekId` arrives after that week's UTC end (for example a Protected Carryover solve syncing late), recompute unlock using the same algorithm for that historical `weekId`
+- the historical weekly outcome must then be recomputed deterministically using Canonical weekly history state triggers in this section
+
+Retroactive-lock rule:
+- once a `weekId` reaches `weeklyResolutionUnlocked=true` under canonical evaluation, it must never be retroactively set back to `false`
+- late-arriving stronger canonical records may upgrade weekly history state (for example `incomplete` to `unresolved`, or `unresolved` to `resolved`), but must not relock a previously unlocked week
+
 ### Weekly Resolution availability rule
 Once unlocked, the Weekly Resolution remains available until that weekly cycle rolls over.
 
