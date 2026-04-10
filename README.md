@@ -31,6 +31,32 @@ _Last reviewed: 2026-04-10_
 
 See `docs/engineering-standards.md` section 5.1 for the exact breakdown of normative requirements versus current enforcement state.
 
+## Current command availability
+
+This mirrors `docs/engineering-standards.md` section **"5.1 Operational Validation Commands (Contributor Contract)"**.
+
+### Implemented now vs planned command contract
+
+| Canonical command | Current status | Expected location of script definition |
+| --- | --- | --- |
+| `pnpm format` | Planned (not yet wired in this docs-first phase) | [`./package.json` → `scripts.format`](./package.json) *(once present)* |
+| `pnpm lint` | Planned (not yet wired in this docs-first phase) | [`./package.json` → `scripts.lint`](./package.json) *(once present)* |
+| `pnpm typecheck` | Planned (not yet wired in this docs-first phase) | [`./package.json` → `scripts.typecheck`](./package.json) *(once present)* |
+| `pnpm test` | Planned (not yet wired in this docs-first phase) | [`./package.json` → `scripts.test`](./package.json) *(once present)* |
+| `pnpm build` | Planned (not yet wired in this docs-first phase) | [`./package.json` → `scripts.build`](./package.json) *(once present)* |
+| `pnpm check` | Planned aggregate (`lint` + `typecheck` + `test` + `build`) | [`./package.json` → `scripts.check`](./package.json) *(once present)* |
+
+### Expected behavior while commands are unavailable
+
+- Treat these commands as **normative requirements already in effect**, even when scripts are not yet scaffolded.
+- If a command cannot run because the script is not present yet, report it explicitly as **manual/unavailable** in your final report rather than silently skipping validation.
+- Do not invent alternate command names; keep using the canonical contract so local habits and CI stay aligned once scripts are added.
+
+### Minimum local validation expectation
+
+- **Docs-only changes:** run docs consistency checks when available; if no docs tooling/scripts are available yet, confirm that explicitly in the report.
+- **Code changes:** run the full canonical contract from repo root (`pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, or `pnpm check` once present), and call out any unavailable command as manual/unavailable.
+
 ---
 
 ## Project Goal
