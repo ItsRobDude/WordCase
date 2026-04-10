@@ -314,6 +314,10 @@ After a hint is used:
 - the hint does not alter the answer
 - the hint does not change attempt history
 - the player must still finish the case through normal valid guess submission
+- fixed hinted letters are input-locked, auto-populate future rows, and cannot be overridden during submission validation
+
+Normative UI/validation behavior for fixed hint positions is defined in:
+- `docs/screen-behavior-spec.md` section **8.6.1 Daily Case input behavior with fixed hint positions (normative)**
 
 ### Hint result classification
 If a player uses a hint and later solves the case:
