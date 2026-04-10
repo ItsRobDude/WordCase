@@ -49,13 +49,12 @@ WordCase should **not** feel like:
 ## 2. Source of Truth and What to Read
 
 ### Source-of-truth order
-When working in WordCase, follow this order of truth:
+When working in WordCase, follow this explicit precedence order:
 
-1. `README.md` for top-level product direction
-2. focused product/engineering documents in `docs/` for the exact rules of the area you are touching
-3. this file
-4. approved implementation plans/tasks
-5. code
+1. focused docs for the touched area
+2. engineering standards/process docs
+3. AGENTS execution rules
+4. code
 
 Important rules:
 - the code should reflect the docs
