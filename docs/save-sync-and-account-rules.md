@@ -92,7 +92,7 @@ Canonical result conflict precedence for the same puzzle ID and version:
 1. Solved Unassisted
 2. Solved Assisted
 3. Failed
-4. Missed, Unopened, or In Progress
+4. Missed (including explicit abandon), Unopened, or In Progress
 
 ### 4.3 Merge prompt rule
 Do not prompt the user for ordinary merge cases.
@@ -135,6 +135,28 @@ If the second device is actively in the puzzle when remote completion arrives:
 - stop further canonical submission
 - show a clear completed-on-another-device message
 - provide View Results and Return Home actions
+
+### 5.6 Explicit abandon canonical recording
+When a player confirms abandon for a Protected Carryover Daily, the canonical write must record:
+- `resultCategory = missed_abandoned`
+- `actionSource = explicit_user_abandon`
+- `actionAtDevice` (device-captured action timestamp, for diagnostics and ordering hints)
+- `recordedAtServer` (server-authoritative canonical timestamp used for tie-breaking and audit)
+
+Reversibility rule:
+- explicit abandon is not reversible by UI action
+- later sync may still be superseded by a stronger valid concluded result for the same puzzle ID/version under precedence rules
+
+### 5.7 Near-simultaneous abandon/solve conflict rule
+Race-condition example:
+1. Device A records `missed_abandoned` locally while offline or unsynced.
+2. Device B solves the same daily and syncs before Device A reconnects.
+3. Device A syncs its pending abandon record afterward.
+
+Expected winner:
+- solved result wins (Solved Unassisted/Solved Assisted outrank missed_abandoned)
+- canonical stored result remains solved
+- Device A must converge to solved state after sync and clear its pending abandon outbox item as superseded
 
 ---
 

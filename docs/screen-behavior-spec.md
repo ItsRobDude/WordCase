@@ -506,6 +506,7 @@ For the live daily:
 - How Feedback Works
 - Accessibility or quick settings
 - Exit to Home
+- **Abandon Carryover Case** (only when a Protected Carryover Daily exists)
 
 ### 9.3 No live daily restart button
 The live Daily Case should not expose a casual reset or restart button in the pause menu.
@@ -515,6 +516,25 @@ If replay or reset behavior is ever allowed, it should be intentional, documente
 ### 9.4 Pause overlay style
 Use a clean modal or sheet.
 Do not fully visually detach the player from the case context.
+
+### 9.5 Explicit abandon action (Protected Carryover only)
+The explicit abandon action is only for an unresolved **Protected Carryover Daily**.
+
+Location and visibility rules:
+- show **Abandon Carryover Case** at the bottom of the pause/case menu in a destructive section
+- do not show this action for same-day live dailies that are not in Protected Carryover state
+- do not expose abandon from Home cards or from ordinary back navigation
+
+Confirmation copy pattern:
+- title pattern: **Abandon this carryover case?**
+- body pattern: **This will mark yesterday's carryover case as missed and cannot be undone. Today's case will become your active daily.**
+- primary destructive button: **Mark Missed**
+- secondary safe button: **Keep Solving**
+
+Post-action routing:
+- after confirmation, close the dialog and route to Home
+- Home should foreground the newly active current daily with **Open Today's Case** (or **Continue Daily Case** if already started)
+- the abandoned carryover should no longer resume as active daily state
 
 ---
 
