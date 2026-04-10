@@ -15,6 +15,7 @@ This document defines:
 - official mobile stack decisions
 - official routing/state/persistence choices
 - domain ownership boundaries
+- implementation contract references for shared TypeScript-facing shapes
 - content manifest/package loading and pinning rules
 - save/sync assumptions that affect architecture
 - side-effect guardrails for analytics/logging/error handling
@@ -29,6 +30,9 @@ This document does not define:
 - speculative backend-heavy architecture
 
 Those belong in focused product documents.
+
+Implementation contract source for concrete TypeScript-facing shapes:
+- `docs/implementation-contracts.md` (canonical state machine contracts, SQLite entity contracts, analytics payload contracts, and runtime content validation interfaces)
 
 ---
 
