@@ -142,6 +142,15 @@ If validation fails:
 
 Never invent puzzle truth.
 
+
+### 5.3 Local validation performance contract
+Local guess validation must use a pre-hydrated lookup structure keyed to the pinned validation snapshot for the active session.
+
+The app must not:
+- parse snapshot files on each guess submission
+- perform ad hoc storage queries on each guess submission
+- rehydrate validation lookup state for every guess attempt
+
 ---
 
 ## 6. Save/Sync Assumptions that Shape Architecture

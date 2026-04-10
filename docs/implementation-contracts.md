@@ -225,6 +225,43 @@ Required precedence rank mapping for daily conflicts:
 - `3`: failed
 - `4`: missed/abandoned/in-progress fallback
 
+
+### 3.5 `active_session_snapshots`
+
+Exact device-local resume snapshots for in-progress puzzle state.
+These snapshots preserve resume fidelity and are not canonical shared truth records.
+
+```ts
+export interface ActiveSessionSnapshotRecord {
+  puzzle_session_id: string;
+  puzzle_id: string;
+  puzzle_type: 'daily_case' | 'weekly_resolution';
+  week_id: string;
+  canonical_state: DailySessionState | WeeklyResolutionState;
+  content_version_pin: string;
+  validation_snapshot_version_pin: string;
+  feedback_algorithm_version_pin: string;
+  hint_rules_version_pin: string;
+  attempts_used: number;
+  valid_guess_count: number;
+  hint_used: 0 | 1;
+  submitted_guesses_json: string;
+  current_input: string;
+  keyboard_state_json: string;
+  fixed_hint_positions_json: string;
+  last_route_context: string;
+  created_at_utc: string;
+  updated_at_utc: string;
+  last_interaction_at_utc: string;
+}
+```
+
+Rules:
+- canonical result/history tables store long-lived shared truth.
+- active session snapshot storage stores exact device-local resume state.
+- result acknowledgment remains device-local UI state and must not rewrite canonical outcome truth.
+
+
 ---
 
 ## 4. Analytics Event Contracts
@@ -418,6 +455,30 @@ Required runtime behavior:
 - reject activation when validation fails.
 - preserve last-known-good package or show unavailable state.
 - do not silently mutate active pinned sessions due to newly fetched content.
+
+
+### 5.3 Runtime validation snapshot lookup interface
+
+```ts
+export interface ValidationSnapshotLookup {
+  snapshot_version: string;
+  hasWord(normalizedGuess: string): boolean;
+}
+
+export interface ValidationSnapshotLookupProvider {
+  get(snapshot_version: string): ValidationSnapshotLookup;
+}
+```
+
+Required runtime behavior:
+- local guess validation must resolve against a pre-hydrated in-memory lookup for the active pinned snapshot.
+- do not parse validation snapshot files per guess.
+- do not query SQLite or other storage per guess for ordinary lookup paths.
+
+Preferred v1 implementation:
+- hydrate generated validation snapshot data once into process-global in-memory lookup structures inside `packages/validation`.
+- reuse those structures for all active lookups.
+- avoid introducing Trie/SQLite/per-guess query complexity unless profiling shows the simple approach is insufficient.
 
 ---
 
