@@ -642,7 +642,13 @@ Abandon behavior rules:
 - abandon must be explicit
 - abandon should require confirmation
 - abandon messaging should be calm and non-punitive
-- once confirmed, the carryover daily becomes Missed and loses canonical eligibility
+- once confirmed, the carryover daily writes canonical result category **Missed (Abandoned)**
+- abandon is not reversible after canonical recording
+- canonical record should include:
+  - `resultCategory = missed_abandoned`
+  - `actionSource = explicit_user_abandon`
+  - `abandonedAt` (action timestamp from the initiating device)
+  - `canonicalRecordedAt` (server-authoritative write timestamp once synced)
 - after that confirmation, the new daily may become the active canonical daily
 
 ### 15.6 Post-rollover routing
@@ -673,6 +679,17 @@ History surfaces should label past week outcomes using the same canonical state 
 
 A single `weekId` must map to exactly one of these states.
 If a prior week receives late-attributed carryover evidence, recompute using the same deterministic trigger order (`resolved` > `unresolved` > `incomplete`) for that same historical `weekId`.
+
+### 15.10 Near-simultaneous abandon/solve conflict example
+Example race:
+1. Device A confirms explicit abandon for Protected Carryover daily `dailyId=D-2026-04-09`.
+2. Before Device A syncs, Device B solves the same `dailyId` and syncs first.
+3. Device A later syncs the abandoned record for the same puzzle ID/version.
+
+Expected winner rule:
+- a valid concluded **Solved** result wins over `missed_abandoned` for the same puzzle ID/version
+- Device A should resolve to solved state after sync and should not re-open canonical play for that daily
+- this follows canonical concluded-result precedence from `docs/save-sync-and-account-rules.md`
 
 ---
 
