@@ -17,7 +17,18 @@ This README is the current top-level source of truth for WordCase product direct
 Focused documents under `docs/` exist to refine this overview with more exact product and engineering rules.
 When a more specific document goes deeper than this README, the more specific document should win.
 
+## Start here in 60 seconds
+
+If you are contributing to WordCase, use this quick path:
+
+1. Read `AGENTS.md` for execution rules and scope discipline.
+2. Read `docs/engineering-standards.md` section **"5.1 Operational Validation Commands (Contributor Contract)"**.
+3. Read only the focused `docs/*` files for the area you are touching (via the routing guide in `AGENTS.md`).
+4. Run the validation commands from section 5.1 that apply to your change.
+
 Current repo phase note:
+_Last reviewed: 2026-04-10_
+
 - command names in `docs/engineering-standards.md` section 5.1 are normative targets
 - those commands become mandatory once workspace scaffolding exists
 - during docs-only phase work, contributors should run document-consistency checks only (if any are currently available)
@@ -177,37 +188,12 @@ Use this canonical precedence order when documents or code appear to disagree:
 3. AGENTS execution rules
 4. code
 
-For contributor execution behavior, see `AGENTS.md`; for domain-specific product and engineering truth, see the relevant `docs/*` file for the area you are touching.
+Canonical ownership:
+- `README.md` is for product direction and high-level onboarding.
+- `AGENTS.md` is for contributor execution behavior, validation expectations, and reporting rules.
+- focused `docs/*` files own domain-level details for their area.
 
-The current core source-of-truth docs are:
-
-- `README.md`
-- `AGENTS.md`
-- `docs/game-rules.md`
-- `docs/dictionary-and-validation-rules.md`
-- `docs/modes-and-session-state.md`
-- `docs/screen-behavior-spec.md`
-- `docs/save-sync-and-account-rules.md`
-- `docs/content-pipeline-and-liveops.md`
-- `docs/progression-economy-and-monetization.md`
-- `docs/technical-architecture.md`
-- `docs/engineering-standards.md`
-- `docs/audio-visual-style-guide.md`
-- `docs/accessibility-localization-and-device-support.md`
-- `docs/analytics-and-experimentation.md`
-- `docs/milestone-implementation-plan.md`
-
-A more specific doc should be treated as more authoritative than this README when it intentionally defines a narrower area in more detail.
-
-## Contribution Guidance
-
-When opening a PR or writing a final contributor report, include the required doc-conflict template from `AGENTS.md` whenever you find conflicting docs or sections.
-
-Include all four items:
-- conflicting docs/sections
-- chosen interpretation
-- why it preserves fairness/trust
-- follow-up doc updates needed
+For the full task-to-doc routing map and contributor process requirements (including the doc-conflict template), see `AGENTS.md`.
 
 ---
 

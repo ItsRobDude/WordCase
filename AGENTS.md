@@ -75,8 +75,7 @@ If two docs (or two sections) conflict, contributors must include this short tem
 Do **not** read every doc by default.
 Use this routing guide to stay focused and avoid context bloat.
 
-#### For all code tasks
-Read:
+Baseline for all code tasks:
 - `README.md`
 - this file
 - `docs/engineering-standards.md`
@@ -84,55 +83,19 @@ Read:
 Validation execution contract:
 - run the command contract defined in `docs/engineering-standards.md` section **"5.1 Operational Validation Commands (Contributor Contract)"** so local checks and CI stay aligned.
 
-#### If the task involves puzzle rules, solve/fail logic, hints, attempts, or case completion
-Also read:
-- `docs/game-rules.md`
-- `docs/dictionary-and-validation-rules.md`
-
-#### If the task involves startup, onboarding, resume, pause, results, rollover, or state transitions
-Also read:
-- `docs/modes-and-session-state.md`
-- `docs/save-sync-and-account-rules.md` if the change also touches canonical result or rollover authority
-
-#### If the task involves screen layout, tap flow, input placement, navigation, or UI behavior
-Also read:
-- `docs/screen-behavior-spec.md`
-- `docs/accessibility-localization-and-device-support.md`
-- `docs/audio-visual-style-guide.md` if visuals/motion/sound/haptics are involved
-
-#### If the task involves word acceptance, answer policy, phrase support, obscurity limits, or edge-case vocabulary
-Also read:
-- `docs/dictionary-and-validation-rules.md`
-
-#### If the task involves local saves, cloud sync, guest/account flow, restore, offline behavior, or completion integrity
-Also read:
-- `docs/save-sync-and-account-rules.md`
-- `docs/technical-architecture.md`
-
-#### If the task involves daily publishing, weekly cases, archive packs, review flow, or event scheduling
-Also read:
-- `docs/content-pipeline-and-liveops.md`
-
-#### If the task involves hints, rewards, ad behavior, ad-free purchase, cosmetic unlocks, or retention systems
-Also read:
-- `docs/progression-economy-and-monetization.md`
-
-#### If the task involves sound, haptics, visual tone, icon style, typography, spacing, or animation behavior
-Also read:
-- `docs/audio-visual-style-guide.md`
-- `docs/accessibility-localization-and-device-support.md`
-
-#### If the task involves analytics, telemetry, experiments, or funnel measurement
-Also read:
-- `docs/analytics-and-experimentation.md`
-
-#### If the task involves module boundaries, persistence, content loading, backend scope, or app architecture
-Also read:
-- `docs/technical-architecture.md`
-
-#### If the task involves deciding what should be built next
-Also read:
-- `docs/milestone-implementation-plan.md`
+| If the task involves... | Also read... |
+| --- | --- |
+| puzzle rules, solve/fail logic, hints, attempts, or case completion | `docs/game-rules.md`, `docs/dictionary-and-validation-rules.md` |
+| startup, onboarding, resume, pause, results, rollover, or state transitions | `docs/modes-and-session-state.md`; `docs/save-sync-and-account-rules.md` if canonical result/rollover authority is touched |
+| screen layout, tap flow, input placement, navigation, or UI behavior | `docs/screen-behavior-spec.md`, `docs/accessibility-localization-and-device-support.md`; add `docs/audio-visual-style-guide.md` if visuals/motion/sound/haptics are involved |
+| word acceptance, answer policy, phrase support, obscurity limits, or edge-case vocabulary | `docs/dictionary-and-validation-rules.md` |
+| local saves, cloud sync, guest/account flow, restore, offline behavior, or completion integrity | `docs/save-sync-and-account-rules.md`, `docs/technical-architecture.md` |
+| daily publishing, weekly cases, archive packs, review flow, or event scheduling | `docs/content-pipeline-and-liveops.md` |
+| hints, rewards, ad behavior, ad-free purchase, cosmetic unlocks, or retention systems | `docs/progression-economy-and-monetization.md` |
+| sound, haptics, visual tone, icon style, typography, spacing, or animation behavior | `docs/audio-visual-style-guide.md`, `docs/accessibility-localization-and-device-support.md` |
+| analytics, telemetry, experiments, or funnel measurement | `docs/analytics-and-experimentation.md` |
+| module boundaries, persistence, content loading, backend scope, or app architecture | `docs/technical-architecture.md` |
+| deciding what should be built next | `docs/milestone-implementation-plan.md` |
 
 If a task does not touch one of these areas, do not pull in extra docs.
 
@@ -436,6 +399,7 @@ Before finishing:
 
 1. run the relevant checks for the code you touched
 2. test the specific flow you changed
+   - for no-code/docs-only edits, run docs consistency checks only (for example: markdown lint, link checks, spell checks) when available
 3. fix obvious issues instead of leaving them behind
 4. verify docs and scripts still match reality
 5. make sure you did not accidentally introduce unrelated complexity
