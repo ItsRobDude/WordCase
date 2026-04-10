@@ -155,6 +155,11 @@ The repo/workspace must expose these command names:
 - `build`
 - `check` (aggregated validation: `lint` + `typecheck` + `test` + `build`)
 
+Current repo phase note:
+- these command names are normative targets for the workspace contract
+- they become mandatory once the workspace scaffolding exists
+- during docs-only phase work, contributors should run document-consistency checks only (if any are currently available)
+
 ### Repo-wide usage (default before every commit)
 Run from repo root:
 - `pnpm format`
