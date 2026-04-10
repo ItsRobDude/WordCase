@@ -132,6 +132,13 @@ Weekly unlock evaluation contract (per `weekId`):
 - evaluate unlock again at week-close finalization for that `weekId`
 - compute `weeklyResolutionUnlocked = (evidenceCount >= unlockThreshold)` from canonical solved daily records only (v1 threshold is 4)
 
+Late unlock grace contract (per historical `weekId` unlocked after rollover):
+- fixed grace duration is exactly `24h` from that historical week's rollover boundary (`week.validity_ends_at_utc`)
+- grace does **not** start at late unlock write time; it always anchors to weekly rollover timestamp
+- eligibility checks use server UTC only; local timezone/device clock must not decide canonical eligibility
+- if a run starts before grace expiry, it is grace-eligible to finish after expiry
+- after grace expiry, no new runs may be started for that historical `weekId`
+
 Timestamp authority and tie-breaks:
 - server-authoritative canonical write timestamp (`recordedAtServer`) is the ordering authority for conflicting writes
 - device-captured timestamps (for example `actionAtDevice`) are diagnostics/order hints only and must not overrule server ordering
@@ -145,8 +152,8 @@ Non-relock rule:
 - reconciliation may only preserve or upgrade the historical weekly outcome state (`incomplete` -> `unresolved` -> `resolved`), never downgrade solely because of ordering noise
 
 Canonical weekly history outcome must resolve to exactly one state per `weekId` using the same names as game/session docs:
-- `resolved` if any Weekly Resolution run solved before week end
-- `unresolved` if Weekly Resolution unlocked but no run solved before week end
+- `resolved` if any Weekly Resolution run solved before week end, or if a grace-eligible late-unlock run solved for that `weekId`
+- `unresolved` if Weekly Resolution unlocked but no eligible run solved for that `weekId` (including grace window outcomes)
 - `incomplete` if Weekly Resolution never unlocked before week end
 
 ### 5.4 Result acknowledgment conflicts

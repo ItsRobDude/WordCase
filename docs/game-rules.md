@@ -519,7 +519,18 @@ Retroactive-lock rule:
 ### Weekly Resolution availability rule
 Once unlocked, the Weekly Resolution remains available until that weekly cycle rolls over.
 
-**Late Unlock Grace Period:** If a player completes a Protected Carryover Daily after weekly rollover, earning their final needed fragment for the prior week, they are granted a short grace window (e.g., 24 hours) after the weekly rollover to play that late-unlocked Weekly Resolution for the previous week.
+### Late Unlock Grace Period (normative)
+If a player completes a Protected Carryover Daily after weekly rollover and that completion is the final evidence needed to unlock the prior week's Weekly Resolution, the prior week's Weekly Resolution receives a **fixed 24-hour grace window**.
+
+Normative boundaries:
+- grace timer anchor: the timer starts at the **prior week's weekly rollover timestamp** (`previousWeek.validity_ends_at_utc`), not at the late unlock action timestamp
+- time authority: eligibility is evaluated against **server UTC only**; device-local clocks/timezones are display-only and non-authoritative
+- start-before-expiry rule: if a Weekly Resolution run is started before grace expiry, that run remains eligible to finish even if completion occurs after expiry
+- no-new-run-after-expiry rule: after grace expiry, no new runs may be started for that prior `weekId`
+- canonical weekly history mapping for that `weekId`:
+  - `resolved` if any grace-eligible run (including a run started before expiry and finished after expiry) is solved
+  - `unresolved` if unlock occurred but no grace-eligible run is solved
+  - `incomplete` if unlock never occurred
 
 ### Weekly Resolution pressure rule
 The Weekly Resolution should feel like payoff, not punishment.
