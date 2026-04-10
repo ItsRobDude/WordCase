@@ -186,7 +186,8 @@ Rules:
 - the starter case should autosave like any other core case
 - backgrounding should not discard it
 - the starter case should remain resumable until completed or intentionally restarted
-- the starter case should be simpler and more guided than the real daily
+- the starter case strictly adheres to the basic rules of the game (5-letter word, 6-attempt limit)
+- the starter case should be simpler and more guided than the real daily by using extremely common vocabulary, a very strong clue, and a guided UI tutorial overlay
 
 ### 6.3 Starter case completion
 When the starter case is solved:
@@ -616,8 +617,10 @@ When a new calendar day becomes active for content selection:
 A prior daily becomes a Protected Carryover Daily only if the player submitted at least one valid guess before rollover.
 
 If the player only opened the daily or viewed the case frame without submitting a valid guess:
-- that prior daily does not gain Protected Carryover Daily status
+- that prior daily generally does not gain Protected Carryover Daily status
 - canonical daily priority moves to the newly published daily after rollover
+
+**First-Day Grace Period Exception:** A new player will automatically be granted Protected Carryover Daily status on their *first* Daily Case upon opening it, even if they have submitted 0 valid guesses. This prevents a punishing user experience where a midnight UTC rollover abruptly ends their very first puzzle shortly after installation.
 
 Only one Protected Carryover Daily may exist at a time.
 
