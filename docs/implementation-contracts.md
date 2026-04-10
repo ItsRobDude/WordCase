@@ -236,7 +236,43 @@ Required precedence rank mapping for daily conflicts:
 - `4`: missed/abandoned/in-progress fallback
 
 
-### 3.5 `active_session_snapshots`
+### 3.5 `weekly_resolution_run_records`
+
+One row per Weekly Resolution run attempt for a given `week_id`.
+This is a dedicated run-level canonical history entity so retries remain deterministic across local persistence and sync reconciliation.
+
+Cross-links:
+- Weekly retry/failure behavior: [`docs/game-rules.md` § "Weekly Resolution retry rule", "Weekly Resolution run reset rule", and "Weekly Resolution failed-run history and analytics rule"](./game-rules.md#weekly-resolution-retry-rule).
+- Cross-device precedence/tie-break behavior: [`docs/save-sync-and-account-rules.md` § "5. Cross-Device Conflict Resolution" and "5.3 Weekly evidence conflicts"](./save-sync-and-account-rules.md#5-cross-device-conflict-resolution).
+
+```ts
+export type WeeklyResolutionRunOutcome = 'solved' | 'failed_run' | 'expired_unresolved';
+
+export interface WeeklyResolutionRunRecord {
+  weekly_run_id: string;
+  week_id: string;
+  run_started_at_utc: string;
+  run_ended_at_utc: string | null;
+  outcome: WeeklyResolutionRunOutcome | 'in_progress';
+  attempts_used: number;
+  hint_used: 0 | 1;
+  content_version_pin: string;
+  validation_snapshot_version_pin: string;
+  feedback_algorithm_version_pin: string;
+  hint_rules_version_pin: string;
+  created_at_utc: string;
+  updated_at_utc: string;
+}
+```
+
+Rules:
+- `weekly_run_id` is immutable and unique per run instantiation (`retry_run` creates a new row).
+- `failed_run` rows are immutable history and must never be resumed.
+- `attempts_used` and `hint_used` are scoped to the run only and reset for each new run.
+- run conflict reconciliation must follow canonical precedence/timestamp authority in `docs/save-sync-and-account-rules.md` for the same `week_id`.
+- run history must never rewrite canonical daily outcomes or previously earned evidence.
+
+### 3.6 `active_session_snapshots`
 
 Exact device-local resume snapshots for in-progress puzzle state.
 These snapshots preserve resume fidelity and are not canonical shared truth records.
