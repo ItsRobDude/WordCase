@@ -756,7 +756,15 @@ Reasonable future monetization may include:
 - ad-free purchase
 - cosmetic themes or presentation packs
 - premium archive or special case packs later
-- carefully handled optional hint-related monetization later
+- carefully handled optional hint monetization only for Archive / Practice content, explicitly non-canonical
+
+Canonical hint policy:
+- no paid hints for canonical Daily Case or Weekly Resolution play
+- any hint monetization must be Archive / Practice only and clearly labeled non-canonical
+- hint monetization must not affect streak, weekly evidence, or any canonical outcome
+
+Cross-reference note:
+- this section must stay aligned with `docs/progression-economy-and-monetization.md` section **"6. Hint Rules and Economy Relationship."**
 
 ### Forbidden behaviors
 WordCase should not:
