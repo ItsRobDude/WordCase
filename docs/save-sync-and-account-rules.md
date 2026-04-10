@@ -45,6 +45,12 @@ Wrong or manually changed device clock must never:
 Device time may affect local countdown display only.
 Canonical truth is resolved against server-defined puzzle windows and puzzle IDs.
 
+**Offline Time Verification:** To verify time while offline without blindly trusting the local device clock:
+- When the game successfully syncs with the server, it records a `serverTimeOffset` (`serverTimeOffset = server_UTC_timestamp - local_device_timestamp`).
+- During offline play, the game calculates current authoritative time as `current_local_device_timestamp + serverTimeOffset`.
+- If the user manually changes their device clock while offline, the offset ensures the calculated time remains relative to the last known honest server sync.
+- If the local clock diverges massively from reasonable uptime (e.g., jumps forward 5 years), the offline session should invalidate and demand a server sync before continuing canonical play.
+
 ---
 
 ## 3. Offline Canonical Play

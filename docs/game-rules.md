@@ -301,8 +301,9 @@ Hint selection must be deterministic.
 
 For the Standard Daily Case:
 - scan answer positions from left to right
-- find the first position that is both correct for the answer and not yet revealed as fixed
+- find the first position that is both correct for the answer, not yet revealed as fixed by a prior hint, and not already correctly guessed (Confirmed green) from a prior valid guess
 - reveal that position and letter
+- if a player has already correctly guessed a letter in its correct position (Confirmed green), the hint algorithm skips that position to avoid wasting a hint
 
 Once a hint-revealed position is fixed, it remains visibly fixed for the rest of the case.
 
@@ -367,7 +368,9 @@ The newly published Daily Case is canonically eligible during its daily window u
 ### Protected carryover creation rule
 If a player has submitted at least one valid guess in the currently active daily before rollover, that daily becomes a **Protected Carryover Daily** for that player.
 
-Opening a daily without submitting at least one valid guess does not create Protected Carryover status.
+Opening a daily without submitting at least one valid guess generally does not create Protected Carryover status.
+
+**First-Day Grace Period Exception:** A new player will automatically be granted Protected Carryover Daily status on their *first* Daily Case upon opening it, even if they have submitted 0 valid guesses. This ensures their very first experience is not abruptly closed by midnight UTC rollover before they have had a chance to play.
 
 ### Protected carryover continuity rule
 A Protected Carryover Daily remains canonically solvable after rollover until one of the following occurs:
@@ -514,6 +517,8 @@ Retroactive-lock rule:
 ### Weekly Resolution availability rule
 Once unlocked, the Weekly Resolution remains available until that weekly cycle rolls over.
 
+**Late Unlock Grace Period:** If a player completes a Protected Carryover Daily after weekly rollover, earning their final needed fragment for the prior week, they are granted a short grace window (e.g., 24 hours) after the weekly rollover to play that late-unlocked Weekly Resolution for the previous week.
+
 ### Weekly Resolution pressure rule
 The Weekly Resolution should feel like payoff, not punishment.
 
@@ -655,6 +660,8 @@ To prevent interpretation drift, the Starter Case MUST follow these explicit rul
 
 ### First-win rule
 The starter experience should aim to produce a fast first win.
+
+**Starter Case Constraints:** The starter case will strictly adhere to the basic rules of the game (5-letter word, 6-attempt limit). The starter case ensures a fast win by using extremely common vocabulary, a very strong clue, and a guided UI tutorial overlay, rather than breaking the mechanical constraints of the core engine.
 
 ### Low-friction entry rule
 Before the player understands the core game, WordCase should avoid:
