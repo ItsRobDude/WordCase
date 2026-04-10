@@ -187,6 +187,26 @@ If a guess is invalid:
 - the invalid guess should not consume an attempt
 - the puzzle state should not change
 
+### 4.1 Action-to-Canonical-Effect Matrix (Compact)
+
+This compact matrix clarifies canonical effects for common Standard Daily Case actions.
+
+| Action | Autosave required? | Creates Protected Carryover eligibility? | Canonical state mutation? | Analytics event class (see `docs/analytics-and-experimentation.md`) |
+| --- | --- | --- | --- | --- |
+| Open case | Yes | No\* | No | `daily.*` (`daily.case_loaded`, `daily.case_started`) |
+| Type/edit input only (no submit) | No | No | No | Optional `daily.*` (only if intentionally instrumented) |
+| Invalid submission | No | No | No | `daily.*` (`daily.guess_rejected`) |
+| Valid guess | Yes | Yes\*\* | Yes | `daily.*` (`daily.guess_submitted`, `daily.feedback_rendered`) |
+| Hint use before any valid guess | No (action blocked by rules) | No | No | Optional `daily.*` rejection/guard telemetry |
+| Hint use after at least one valid guess | Yes | No\*\*\* | Yes | `daily.*` (`daily.hint_requested`, `daily.hint_applied`) |
+| Pause / background | No (must restore prior saved state) | No | No | `session.*` (`session.pause`, then `session.resume`) |
+
+\* Exception: the First-Day Grace Period grants Protected Carryover eligibility for a new player's first opened daily even with 0 valid guesses.
+
+\*\* Under normal rules, eligibility begins once at least one valid guess is submitted before rollover.
+
+\*\*\* Hint use after a valid guess does not itself create eligibility.
+
 ### Editing before submission
 Before a guess is submitted, the player may change or clear their current input freely.
 

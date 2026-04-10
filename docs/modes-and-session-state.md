@@ -313,6 +313,27 @@ Behavior:
 - archive access should not change the meaning of the original outcome
 - archived play, if replayable, must be clearly separated from the canonical live result record
 
+### 8.8 Daily Action Canonical Effects (Compact Matrix)
+
+This matrix summarizes the canonical effect expectations for common Daily Case actions.
+
+| Action | Autosave required? | Creates Protected Carryover eligibility? | Canonical state mutation? | Analytics event class (see `docs/analytics-and-experimentation.md`) |
+| --- | --- | --- | --- | --- |
+| Open case | Yes | No\* | No | `daily.*` (`daily.case_loaded`, `daily.case_started`) |
+| Type/edit input only (no submit) | No | No | No | Optional `daily.*` (if instrumented; avoid noisy per-keystroke events) |
+| Invalid submission | No | No | No | `daily.*` (`daily.guess_rejected`) |
+| Valid guess | Yes | Yes\*\* | Yes | `daily.*` (`daily.guess_submitted`, `daily.feedback_rendered`) |
+| Hint use before any valid guess | No (action blocked) | No | No | Optional `daily.*` rejection/guard telemetry |
+| Hint use after at least one valid guess | Yes | No\*\*\* | Yes | `daily.*` (`daily.hint_requested`, `daily.hint_applied`) |
+| Pause / background | No (must preserve already persisted state) | No | No | `session.*` (`session.pause`, then `session.resume` on return) |
+
+\* Exception: the First-Day Grace Period grants Protected Carryover eligibility for a new player's first opened daily even with 0 valid guesses.
+
+\*\* The first valid guess creates Protected Carryover eligibility for that daily under normal rules.
+
+\*\*\* Hint use after a valid guess does not itself create eligibility; eligibility already exists from the prior valid guess.
+
+
 ---
 
 ## 9. Weekly Caseboard States
