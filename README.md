@@ -170,6 +170,15 @@ It is not fine for WordCase to lose its identity early.
 
 ## Current Source-of-Truth Docs
 
+Use this canonical precedence order when documents or code appear to disagree:
+
+1. focused docs for the touched area
+2. engineering standards/process docs
+3. AGENTS execution rules
+4. code
+
+For contributor execution behavior, see `AGENTS.md`; for domain-specific product and engineering truth, see the relevant `docs/*` file for the area you are touching.
+
 The current core source-of-truth docs are:
 
 - `README.md`
