@@ -166,16 +166,17 @@ But this is optional and should not be required for the weekly system to feel co
 
 ### Are hints always free-per-case, or ever tied to economy later?
 
-For canonical core play:
-- **Daily Case hints are always free-per-case**
-- **Weekly Resolution hints are always free-per-case**
-- the one-hint rule remains part of puzzle design, not economy design
+Canonical hint policy (single source statement):
+- no paid hints for canonical Daily Case or Weekly Resolution play
+- any hint monetization is Archive / Practice only and explicitly non-canonical
+- hint monetization must not affect streak, weekly evidence, or canonical outcomes
+- the one-hint rule for canonical play remains puzzle design, not economy design
 
 That means:
 - no paid extra canonical daily hints
-- no paid weekly hints
+- no paid extra canonical weekly hints
 - no ad-watched extra canonical hint on a failed daily
-- no “buy more chances” logic
+- no “buy more chances” logic in canonical play
 
 ### Why
 WordCase should not make the player wonder whether the puzzle is tuned around purchases.
@@ -189,6 +190,9 @@ If WordCase ever introduces a non-canonical practice convenience economy later, 
 - never changing canonical solve/fail truth
 
 Even then, this should be approached cautiously.
+
+Cross-reference note:
+- this section must stay aligned with `docs/game-rules.md` section **"14. Monetization Boundaries"** (especially **"Allowed directions"**).
 
 ---
 
