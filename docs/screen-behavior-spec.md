@@ -99,13 +99,19 @@ All important UI meaning must remain clear with sound off and haptics off.
 ### 4.1 Primary navigation approach
 WordCase uses a small bottom navigation in normal app flow.
 
-Bottom navigation in the first real product slice is:
+Archive bottom-nav behavior is milestone-gated and must follow one exact rule set for Milestones 0/1/2:
 
-- **Home**
-- **Archive**
-- **Profile**
+- **Milestone 0:** bottom nav is **Home + Profile** only. Archive tab does **not** exist.
+- **Milestone 1:** bottom nav remains **Home + Profile** by default. Archive is **hidden entirely** unless unlock criteria are met; **visible-but-disabled Archive is not allowed**.
+- **Milestone 2:** same gating rule as Milestone 1. Archive is either fully visible and playable or fully hidden; **visible-but-disabled Archive is not allowed**.
 
-This keeps the app simple and daily-centered.
+Archive visibility unlock criteria (Milestones 1 and 2):
+- Archive appears only when there is at least **2 real playable entries**:
+  1. a replayable starter case, and
+  2. at least one additional real practice/archive case.
+- If this minimum is not met, Archive stays fully hidden (no tab, no dead-end route, no disabled placeholder).
+
+When this section and `docs/milestone-implementation-plan.md` differ on Milestone 0/1/2 Archive gating, **`docs/milestone-implementation-plan.md` is the source of truth and this spec must be updated to match it**.
 
 ### 4.2 Why Weekly Caseboard is not a main tab
 The Weekly Caseboard is a major surface, but not a bottom-tab destination in the first version.
