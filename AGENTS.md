@@ -207,7 +207,9 @@ These rules should not drift unless the docs are intentionally updated.
 - Monetization must support the product, not deform it.
 - Do not make the game feel pay-to-solve.
 - Do not use manipulative interruption in the active solve flow.
+- Canonical Daily/Weekly hints are never purchasable; any future hint economy is non-canonical Archive/Practice only and must not affect streak/evidence/canonical outcomes.
 - Ad-free, carefully handled hints, and later premium content packs may fit.
+- For hint monetization interpretation, align with the hint section in `docs/progression-economy-and-monetization.md`.
 - Any monetization layer must remain secondary to fairness and clarity.
 
 ---
