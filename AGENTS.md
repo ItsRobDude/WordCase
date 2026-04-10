@@ -74,6 +74,9 @@ Read:
 - this file
 - `docs/engineering-standards.md`
 
+Validation execution contract:
+- run the command contract defined in `docs/engineering-standards.md` section **"5.1 Operational Validation Commands (Contributor Contract)"** so local checks and CI stay aligned.
+
 #### If the task involves puzzle rules, solve/fail logic, hints, attempts, or case completion
 Also read:
 - `docs/game-rules.md`
@@ -429,6 +432,9 @@ Before finishing:
 5. make sure you did not accidentally introduce unrelated complexity
 6. make sure the result still matches WordCase's product direction
 7. if you changed puzzle behavior, validation behavior, session state, or monetization behavior, call that out explicitly
+
+Check execution source of truth:
+- use `docs/engineering-standards.md` section **"5.1 Operational Validation Commands (Contributor Contract)"** for exact commands, milestone gates, package-vs-repo usage, and CI parity expectations.
 
 Your final report should include:
 - what changed

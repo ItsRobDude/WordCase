@@ -75,6 +75,15 @@ These docs may be created just before the milestone that needs them, but they mu
 
 If a milestone depends on a missing doc, create or finalize that doc before serious coding starts for that milestone.
 
+### Validation command contract (applies to all milestones)
+Use `docs/engineering-standards.md` section **"5.1 Operational Validation Commands (Contributor Contract)"** as the authoritative command list for:
+- exact format/lint/typecheck/test/build command names
+- milestone-required checks
+- package-scoped versus repo-wide execution
+- CI parity with local contributor validation
+
+Milestone completion checks should reference that section directly rather than redefining command paths per milestone.
+
 ---
 
 ## 3. Build Strategy Summary

@@ -136,6 +136,70 @@ it should not be added.
 
 ---
 
+## 5.1 Operational Validation Commands (Contributor Contract)
+
+This section is the single operational contract for contributor validation.
+Use these exact commands so local validation, milestone gates, and CI all run the same path.
+
+Reference points:
+- `AGENTS.md` (execution expectations for contributors)
+- `docs/milestone-implementation-plan.md` (milestone-required checks)
+
+### Canonical command names
+The repo/workspace must expose these command names:
+- `format`
+- `lint`
+- `typecheck`
+- `test`
+- `build`
+- `check` (aggregated validation: `lint` + `typecheck` + `test` + `build`)
+
+### Repo-wide usage (default before every commit)
+Run from repo root:
+- `pnpm format`
+- `pnpm lint`
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm build`
+
+Use this shortcut when available:
+- `pnpm check`
+
+### Package-scoped usage (during iteration)
+For faster local loops, run checks only for touched package(s):
+- `pnpm --filter <package_name> format`
+- `pnpm --filter <package_name> lint`
+- `pnpm --filter <package_name> typecheck`
+- `pnpm --filter <package_name> test`
+- `pnpm --filter <package_name> build`
+
+Before merge, always run repo-wide checks from root (or the CI-equivalent command path).
+
+### When to run each command
+- `format`: after edits and before opening/merging PRs.
+- `lint`: on every feature/fix/doc-with-code update before commit.
+- `typecheck`: on every TypeScript change before commit.
+- `test`: whenever behavior can change (rules, state, persistence, routing, UI logic).
+- `build`: before merge and for milestone completion validation.
+- `check`: preferred pre-commit/pre-PR command when available.
+
+### Milestone-specific required checks
+- **Milestone 0 and onward:** `format`, `lint`, `typecheck`, `test`, and `build` must pass.
+- **Milestones that touch Expo/mobile runtime paths:** run `expo-doctor` and a successful Expo bundle/start validation in addition to the core checks.
+- **Milestones that change puzzle truth, validation policy, or canonical result logic:** require targeted tests covering the changed rule path plus passing repo-wide checks.
+
+### Expected CI parity
+CI must execute the same command contract, in this order:
+1. `pnpm format --check` (or equivalent non-mutating formatter check)
+2. `pnpm lint`
+3. `pnpm typecheck`
+4. `pnpm test`
+5. `pnpm build`
+
+Do not create a CI-only validation path that differs from contributor-local commands.
+
+---
+
 ## 6. Architecture Boundary Rules
 
 WordCase should enforce strong separation between:
